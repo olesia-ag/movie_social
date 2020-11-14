@@ -1,0 +1,30 @@
+.DrawerToggle {
+	width: 60px;
+	height: 100%;
+	display: flex;
+	flex-flow: column;
+	justify-content: space-around;
+	align-items: center;
+	box-sizing: inherit;
+	padding: 10px;
+	margin: 0 0 0 5px;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+.DrawerToggle div {
+	width: 90%;
+	height: 3px;
+	background-color: var(--background-color);
+}
+
+.NotShow{
+	display: none;
+}
+
+/* should not appear after 769 and more */
+@media (min-width: 769px) {
+    .DrawerToggle {
+        display: none;
+    }
+}

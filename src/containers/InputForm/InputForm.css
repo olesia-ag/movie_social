@@ -1,0 +1,17 @@
+.ContactData {
+	width: 100%;
+	margin: 0 auto;
+	padding: 5px;
+}
+
+.ContactData form {
+	margin: 0 auto;
+}
+.Form {
+	margin: 0 auto;
+}
+
+form > .ButtonContainer {
+	margin: 0 auto;
+	width: 30%;
+}

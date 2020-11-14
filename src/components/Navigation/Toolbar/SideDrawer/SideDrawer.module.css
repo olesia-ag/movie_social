@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@600&display=swap');
+
+.SideDrawer {
+	position: fixed;
+	width: 100vw;
+	min-height: 30vh;
+	left: 0;
+	top: 0;
+	z-index: 200;
+	background-color: var(--background-dark-color);
+	padding: 32px 16px;
+	box-sizing: border-box;
+	transition: -webkit-transform 0.3s ease-out;
+	transition: transform 0.3s ease-out;
+	transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
+	font-family: 'Dosis', sans-serif;
+}
+
+.Open {
+	-webkit-transform: translateY(0);
+	        transform: translateY(0);
+}
+
+.Close {
+	-webkit-transform: translateY(-100%);
+					transform: translateY(-100%);
+}
+
+/* for 769 and more */
+@media (min-width: 769px) {
+	.SideDrawer {
+		display: none;
+	}
+}

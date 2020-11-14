@@ -1,0 +1,23 @@
+.NavigationList {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	height: 100%;
+	background-color: inherit;
+	width: 100%;
+	font-family: inherit;
+	z-index: 250;
+}
+
+.NotShow {
+	display: none;
+}
+
+@media (min-width: 769px) {
+	.NavigationList {
+		flex-flow: row;
+	}
+}

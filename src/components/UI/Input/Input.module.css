@@ -1,0 +1,96 @@
+.Input {
+	width: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+	margin: 0 auto;
+}
+
+.Label {
+	font-weight: bold;
+	display: block;
+	margin-bottom: 8px;
+}
+
+.InputElement {
+	outline: none;
+	background-color: var(--background-light-color);
+	font: inherit;
+	padding: 0.3em;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	margin: 0 auto;
+	border-bottom: 1px solid var(--primary-dark-color);
+	width: 95%;
+	box-sizing: border-box;
+	display: block;
+	border-radius: none;
+	-webkit-border-radius: 0px;
+}
+
+.InputElement:focus {
+	outline: none;
+	background-color: var(--background-light-color);
+}
+
+.Invalid {
+	border-bottom-color: var(--primary-color);
+}
+
+.TextArea {
+	resize: none;
+	box-sizing: border-box;
+	padding: 0.8em;
+}
+
+.TextArea::-webkit-input-placeholder {
+	text-align: center;
+	color: var(--primary-dark-color);
+}
+
+.TextArea:-ms-input-placeholder {
+	text-align: center;
+	color: var(--primary-dark-color);
+}
+
+.TextArea::-ms-input-placeholder {
+	text-align: center;
+	color: var(--primary-dark-color);
+}
+
+.TextArea::placeholder {
+	text-align: center;
+	color: var(--primary-dark-color);
+}
+.InputElement::-webkit-input-placeholder {
+	text-align: center;
+	color: var(--primary-dark-color);
+}
+.InputElement:-ms-input-placeholder {
+	text-align: center;
+	color: var(--primary-dark-color);
+}
+.InputElement::-ms-input-placeholder {
+	text-align: center;
+	color: var(--primary-dark-color);
+}
+.InputElement::placeholder {
+	text-align: center;
+	color: var(--primary-dark-color);
+}
+
+/* tablet layout */
+/*desktop layout */
+
+/* 769 and more */
+@media (min-width: 769px) {
+	.Input {
+		width: 90%;
+		padding: 10px;
+		box-sizing: border-box;
+	}
+	.InputElement {
+		width: 100%;
+	}
+}
+
