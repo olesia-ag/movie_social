@@ -1,7 +1,7 @@
-#Social Network For Movie Lovers!
+ Social Network For Movie Lovers!
 
 
-###MVP
+MVP
 Tier 1:
 User can:
 -create account/login/logout
