@@ -1,0 +1,29 @@
+form {
+	border: solid lightgrey 1px;
+	width: 400px;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+button {
+	margin: 10px;
+	background-color: #4c54bd;
+	color: white;
+}
+button:hover {
+	background-color: #797fcd;
+	cursor: pointer;
+}
+
+label {
+	font-weight: 700;
+	font-size: small;
+	align-self: flex-start;
+}
+
+@media (max-width: 600px) {
+	input {
+		width: 80vw;
+	}
+}

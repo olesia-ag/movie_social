@@ -32,3 +32,9 @@ export const updateObject = (oldObject, updateObject) => {
         ...updateObject
     }
 }
+
+//may not to be in this file
+export const checkMatch = (value, valueToCompare) => {
+    if (value===valueToCompare) return true
+    else return false
+  }

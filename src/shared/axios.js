@@ -1,8 +1,8 @@
-import axiosVar from 'axios'
+import axios from 'axios'
 
 
-let axios = axiosVar.create({
-  baseURL: ''
+export const axiosFirebase = axios.create({
+  baseURL: 'https://movie-social-28fe3.firebaseio.com/'
 })
 
-export default axios
+
