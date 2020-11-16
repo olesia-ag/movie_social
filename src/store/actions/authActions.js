@@ -1,6 +1,5 @@
 import * as actionTypes from './actionTypes';
-import axios from 'axios';
-import firebase from '../../firebase';
+
 
 export const authClear = () => {
 	return {
@@ -30,30 +29,17 @@ export const authFail = (error) => {
 };
 
 export const logout = () => {
+  console.log('logout was called')
 	localStorage.removeItem('token');
-	localStorage.removeItem('expirationTime');
 	localStorage.removeItem('userId');
 	return {
 		type: actionTypes.AUTH_LOGOUT,
 	};
 };
 
-// export const checkAuthTimeout = (expirationTime) => {
-// 	return (dispatch) => {
-// 		setTimeout(() => {
-// 			dispatch(logout());
-// 		}, expirationTime * 1000);
-// 	};
-// };
-
 export const auth = (email, password, isSignUp, firebase) => {
 	return (dispatch) => {
 		dispatch(authStart());
-		const authData = {
-			email: email,
-			password: password,
-			returnSecureToken: true,
-		};
 		if (isSignUp) {
 			firebase
 				.createUser(email, password)

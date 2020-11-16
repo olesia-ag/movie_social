@@ -32,7 +32,7 @@ const App = (props) => {
 	if (props.auth) {
 		routes = (
 			<Switch>
-				<Route path='/' render={(props) => <Dashboard {...props} />} />
+				<Route path='/' exact render={(props) => <Dashboard {...props} />} />
 				<Route path='/logout' component={Logout} />
 				<Route
 					path='/auth'

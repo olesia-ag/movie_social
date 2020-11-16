@@ -3,7 +3,8 @@ import classes from './Layout.module.css';
 import Toolbar from '../../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../../components/Navigation/Toolbar/SideDrawer/SideDrawer';
 import Footer from '../../../components/Navigation/Footer/Footer';
-import Modal from '../../../components/UI/Modal/Modal'
+import Modal from '../../../components/UI/Modal/Modal';
+import { connect } from 'react-redux';
 
 const Layout = (props) => {
 	const [showSideDrawer, switchShowSideDrawer] = useState(false);
@@ -21,8 +22,13 @@ const Layout = (props) => {
 			<Toolbar
 				drawerToggleClicked={sideDrawerToggleHandler}
 				sideDrawerOpen={showSideDrawer}
+				isAuth={props.isAuthenticated}
 			/>
-			<SideDrawer closed={sideDrawerClosedHandler} open={showSideDrawer} />
+			<SideDrawer
+				closed={sideDrawerClosedHandler}
+				open={showSideDrawer}
+				isAuth={props.isAuthenticated}
+			/>
 			<Modal />
 			<main className={classes.Content}>{props.children}</main>
 			<Footer />
@@ -32,4 +38,10 @@ const Layout = (props) => {
 
 Layout.whyDidYouRender = true;
 
-export default Layout;
+const mapStateToProps = (state) => {
+	console.log('state', state);
+	return {
+		isAuthenticated: !!state.auth.idToken,
+	};
+};
+export default connect(mapStateToProps)(Layout);

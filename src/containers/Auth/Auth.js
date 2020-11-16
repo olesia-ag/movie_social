@@ -59,7 +59,7 @@ const Auth = (props) => {
 		if (props.signIn) {
 			setSignIn(true);
 		}
-	}, []);
+	}, [props.signIn]);
 
 	const inputChangedHandler = (event) => {
 		const property = event.target.name;
@@ -189,7 +189,7 @@ const Auth = (props) => {
 					{arrayOfErrors.map((msg) => {
 						if (msg.length) {
 							return <li key={msg}>{msg}</li>;
-						}
+						} else return null;
 					})}
 				</ul>
 			</div>
@@ -203,7 +203,6 @@ const Auth = (props) => {
 			!errorMessages.passwordError.length &&
 			!errorMessages.repeatPasswordError.length
 		) {
-			console.log('no errors');
 			setFormInvalid(false);
 		}
 	}, [errorMessages]);
@@ -321,9 +320,8 @@ const Auth = (props) => {
 			);
 		}
 	}
-
+//look into Redirect 'flashing' behavior
 	let authRedirect = null;
-	console.log('isAuthenticated', props.isAuthenticated)
 	if (props.isAuthenticated) {
 		authRedirect = <Redirect to={props.authRedirect} />;
 	}
@@ -353,5 +351,7 @@ const mapDispatchToProps = (dispatch) => {
 		authClear: () => dispatch(actions.authClear()),
 	};
 };
+
+Auth.whyDidYouRender = true;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);

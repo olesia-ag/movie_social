@@ -1,10 +1,11 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import './wdyr';
 import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import authReducer from './store/reducers/authReducer';
