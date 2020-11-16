@@ -31,26 +31,4 @@ a:active {
 	color: inherit;
 }
 
-.listStyle {
-	margin: 0;
-	display: none;
-}
 
-.liStyle {
-	padding-right: 3rem;
-}
-
-.listStyle {
-	list-style-type: none;
-	border: 3px;
-	display: flex;
-	flex-flow: row;
-	margin: 1em 1em;
-}
-
-.liStyle {
-	padding-right: 3rem;
-}
-.link {
-	text-decoration: none;
-}

@@ -7,7 +7,7 @@ import classes from './Main.module.css';
 function Main() {
 	return (
 		<div className={classes.Main}>
-
+	Main
 		</div>
 	);
 }

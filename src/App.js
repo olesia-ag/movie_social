@@ -5,10 +5,10 @@ import Layout from './containers/hoc/Layout/Layout';
 import Main from './containers/Main';
 import Auth from './containers/Auth/Auth';
 import { FirebaseContext } from './firebase';
+import Logout from './containers/Auth/Logout/Logout';
+import Dashboard from './containers/Dashboard/Dashboard';
 import { connect } from 'react-redux';
 import * as actions from './store/actions/index';
-
-
 
 const App = (props) => {
 	const { onTryAutoSignIn } = props;
@@ -28,6 +28,25 @@ const App = (props) => {
 			<Redirect to='/' />
 		</Switch>
 	);
+
+	if (props.auth) {
+		routes = (
+			<Switch>
+				<Route path='/' render={(props) => <Dashboard {...props} />} />
+				<Route path='/logout' component={Logout} />
+				<Route
+					path='/auth'
+					render={(props) => (
+						<FirebaseContext.Consumer>
+							{(firebase) => <Auth firebase={firebase} />}
+						</FirebaseContext.Consumer>
+					)}
+				/>
+				<Redirect to='/' />
+			</Switch>
+		);
+	}
+
 	return (
 		<div className={classes.App}>
 			<Layout>{routes}</Layout>
@@ -36,7 +55,6 @@ const App = (props) => {
 };
 
 const mapStateToProps = (state) => {
-	console.log('state', state);
 	return {
 		auth: !!state.auth.idToken,
 	};

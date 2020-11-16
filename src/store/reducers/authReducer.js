@@ -33,6 +33,10 @@ const setAuthRedirectPath = (state, action) => {
 	return updateObject(state, { authRedirectPath: action.path });
 };
 
+const authClear = (state, action) => {
+	return updateObject(state, { error: null, loading: false });
+};
+
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		case actionTypes.AUTH_START:
@@ -49,6 +53,9 @@ const reducer = (state = initialState, action) => {
 
 		case actionTypes.SET_AUTH_REDIRECT_PATH:
 			return setAuthRedirectPath(state, action);
+
+		case actionTypes.AUTH_CLEAR:
+			return authClear(state, action);
 
 		default:
 			return state;

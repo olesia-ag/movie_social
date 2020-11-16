@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { checkValidity, checkMatch } from '../../shared/utility';
 import * as actions from '../../store/actions';
 import { connect } from 'react-redux';
-
+import classes from './Auth.module.css';
+import { Redirect } from 'react-router-dom';
 
 const Auth = (props) => {
-  console.log('props', props)
-  const [signIn, setSignIn] = useState(false);
-  const [authError, setAuthError] = useState(null);
+	const [signIn, setSignIn] = useState(false);
 	const [name, setName] = useState({
 		placeholder: 'your name',
 		value: '',
@@ -56,26 +55,50 @@ const Auth = (props) => {
 		repeatPasswordError: '',
 	});
 
+	useEffect(() => {
+		if (props.signIn) {
+			setSignIn(true);
+		}
+	}, []);
+
 	const inputChangedHandler = (event) => {
 		const property = event.target.name;
 		const value = event.target.value;
 		switch (property) {
 			case 'name':
+				setErrorMessages((prev) => {
+					return { ...prev, nameError: '' };
+				});
 				setName((prev) => {
 					return { ...prev, value, touched: true };
 				});
 				break;
 			case 'email':
+				setErrorMessages((prev) => {
+					return { ...prev, emailError: '' };
+				});
 				setEmail((prev) => {
 					return { ...prev, value, touched: true };
 				});
 				break;
 			case 'password':
+				setErrorMessages((prev) => {
+					return {
+						...prev,
+						passwordError: '',
+					};
+				});
 				setPassword((prev) => {
 					return { ...prev, value, touched: true };
 				});
 				break;
 			case 'repeatPassword':
+				setErrorMessages((prev) => {
+					return {
+						...prev,
+						repeatPasswordError: '',
+					};
+				});
 				setRepeatPassword((prev) => {
 					return { ...prev, value, touched: true };
 				});
@@ -86,9 +109,10 @@ const Auth = (props) => {
 		}
 	};
 
-	const checkValidFields = () => {
+	const checkValidFields = (isSignUp) => {
+		console.log('went to checkValidFields', isSignUp);
 		let errors = 0;
-		if (!checkValidity(name.value, name.validation)) {
+		if (!checkValidity(name.value, name.validation) && isSignUp) {
 			errors++;
 			setErrorMessages((prev) => {
 				return { ...prev, nameError: 'Enter your name' };
@@ -100,7 +124,7 @@ const Auth = (props) => {
 				return { ...prev, emailError: 'Enter a valid email address' };
 			});
 		}
-		if (!checkValidity(password.value, password.validation)) {
+		if (!checkValidity(password.value, password.validation) && isSignUp) {
 			errors++;
 			setErrorMessages((prev) => {
 				return {
@@ -109,7 +133,7 @@ const Auth = (props) => {
 				};
 			});
 		}
-		if (!checkMatch(repeatPassword.value, password.value)) {
+		if (!checkMatch(repeatPassword.value, password.value) && isSignUp) {
 			errors++;
 			setErrorMessages((prev) => {
 				return { ...prev, repeatPasswordError: 'Passwords must match' };
@@ -121,20 +145,34 @@ const Auth = (props) => {
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-		if (checkValidFields()) {
-      props.onAuth(email.value, password.value, true, props.firebase)
-			console.log(
-				name.value,
-				' ',
-				email.value,
-				' ',
-				password.value,
-				' ',
-				repeatPassword.value
-			);
+		console.log('went to submit handler');
+		if (signIn) {
+			if (checkValidFields(false)) {
+				console.log('got to if');
+				props.onAuth(email.value, password.value, false, props.firebase);
+			} else {
+				setFormInvalid(true);
+			}
 		} else {
-			setFormInvalid(true);
+			if (checkValidFields(true)) {
+				console.log('got to else if');
+				props.onAuth(email.value, password.value, true, props.firebase);
+			} else {
+				setFormInvalid(true);
+			}
 		}
+	};
+
+	const handleSwitchToSignIn = (e) => {
+		e.preventDefault();
+		props.authClear();
+		setSignIn(true);
+	};
+
+	const handleSwitchToSignUp = (e) => {
+		e.preventDefault();
+		props.authClear();
+		setSignIn(false);
 	};
 
 	let displayError = null;
@@ -158,66 +196,144 @@ const Auth = (props) => {
 		);
 	}
 
+	useEffect(() => {
+		if (
+			!errorMessages.nameError.length &&
+			!errorMessages.emailError.length &&
+			!errorMessages.passwordError.length &&
+			!errorMessages.repeatPasswordError.length
+		) {
+			console.log('no errors');
+			setFormInvalid(false);
+		}
+	}, [errorMessages]);
+
 	let form = (
-		<div>
+		<div className={classes.FormContainer}>
 			{formInvalid ? displayError : null}
-			<form onSubmit={submitHandler}>
-				<h3>Create account</h3>
-				<label htmlFor='name'>Your name</label>
+			<form className={classes.AuthForm} onSubmit={submitHandler}>
+				<strong>Create account</strong>
+				<h5>
+					<a href='#' onClick={handleSwitchToSignIn}>
+						{' '}
+						Already a movie lover?{' '}
+					</a>
+				</h5>
+				<label className={classes.AuthLabel} htmlFor='name'>
+					Your name
+				</label>
 				<input
 					type='text'
 					name='name'
 					value={name.value}
 					onChange={(e) => inputChangedHandler(e)}
 				/>
-				<label htmlFor='email'>Email</label>
+				<label className={classes.AuthLabel} htmlFor='email'>
+					Email
+				</label>
 				<input
 					type='email'
 					name='email'
 					value={email.value}
 					onChange={(e) => inputChangedHandler(e)}
 				/>
-				<label htmlFor='password'>Password</label>
+				<label className={classes.AuthLabel} htmlFor='password'>
+					Password
+				</label>
 				<input
 					type='password'
 					name='password'
 					value={password.value}
 					onChange={(e) => inputChangedHandler(e)}
 				/>
-				<label htmlFor='repeatPassword'>Re-enter password</label>
+				<label className={classes.AuthLabel} htmlFor='repeatPassword'>
+					Re-enter password
+				</label>
 				<input
 					type='password'
 					name='repeatPassword'
 					value={repeatPassword.value}
 					onChange={(e) => inputChangedHandler(e)}
 				/>
-				<button type='submit'>Submit</button>
+				<button className={classes.AuthButton} type='submit'>
+					Submit
+				</button>
 			</form>
 		</div>
 	);
 
+	//need to refactor? - change css display for form elements based on props.signIn
 	if (signIn) {
 		form = (
-			<div>
-				<label htmlFor='email'>Email</label>
-				<input
-					type='email'
-					name='email'
-					value={email.value}
-					onChange={(e) => inputChangedHandler(e)}
-				/>
-				<label htmlFor='password'>Password</label>
-				<input
-					type='password'
-					name='password'
-					value={password.value}
-					onChange={(e) => inputChangedHandler(e)}
-				/>
+			<div className={classes.FormContainer}>
+				{formInvalid ? displayError : null}
+				<form className={classes.AuthForm} onSubmit={submitHandler}>
+					<strong>Sign in</strong>
+					<h5>
+						<a href='#' onClick={handleSwitchToSignUp}>
+							{' '}
+							or become a movie lover{' '}
+						</a>
+					</h5>
+					<label className={classes.AuthLabel} htmlFor='email'>
+						Email
+					</label>
+					<input
+						type='email'
+						name='email'
+						value={email.value}
+						onChange={(e) => inputChangedHandler(e)}
+					/>
+					<label className={classes.AuthLabel} htmlFor='password'>
+						Password
+					</label>
+					<input
+						type='password'
+						name='password'
+						value={password.value}
+						onChange={(e) => inputChangedHandler(e)}
+					/>
+					<button className={classes.AuthButton} type='submit'>
+						Submit
+					</button>
+				</form>
 			</div>
 		);
 	}
-	return <>{form}
-  {props.error ? props.error.message : null }</>;
+
+	let authError = null;
+	if (props.error) {
+		if (props.error.code === 'auth/email-already-in-use') {
+			authError = (
+				<span className={classes.AuthError}>
+					{props.error.message}
+					<a href='#' onClick={handleSwitchToSignIn}>
+						{' '}
+						Login instead{' '}
+					</a>
+				</span>
+			);
+		} else {
+			authError = (
+				<span className={classes.AuthError}>
+					Sorry, it went wrong. {props.error.message}{' '}
+				</span>
+			);
+		}
+	}
+
+	let authRedirect = null;
+	console.log('isAuthenticated', props.isAuthenticated)
+	if (props.isAuthenticated) {
+		authRedirect = <Redirect to={props.authRedirect} />;
+	}
+	return (
+		<>
+			{authRedirect}
+			{form}
+			{authError}
+		</>
+	);
 };
 
 const mapStateToProps = (state) => {
@@ -234,6 +350,7 @@ const mapDispatchToProps = (dispatch) => {
 		onAuth: (email, password, isSignup, firebase) =>
 			dispatch(actions.auth(email, password, isSignup, firebase)),
 		onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirect('/')),
+		authClear: () => dispatch(actions.authClear()),
 	};
 };
 

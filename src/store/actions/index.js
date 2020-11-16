@@ -1,1 +1,7 @@
-export { auth, logout, setAuthRedirect, authCheckState } from './authActions'
+export {
+	auth,
+	logout,
+	setAuthRedirect,
+	authCheckState,
+	authClear,
+} from './authActions';

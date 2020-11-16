@@ -2,6 +2,12 @@ import * as actionTypes from './actionTypes';
 import axios from 'axios';
 import firebase from '../../firebase';
 
+export const authClear = () => {
+	return {
+		type: actionTypes.AUTH_CLEAR,
+	};
+};
+
 export const authStart = () => {
 	return {
 		type: actionTypes.AUTH_START,
@@ -32,14 +38,13 @@ export const logout = () => {
 	};
 };
 
-export const checkAuthTimeout = (expirationTime) => {
-	return (dispatch) => {
-		setTimeout(() => {
-			dispatch(logout());
-		}, expirationTime * 1000);
-	};
-};
-
+// export const checkAuthTimeout = (expirationTime) => {
+// 	return (dispatch) => {
+// 		setTimeout(() => {
+// 			dispatch(logout());
+// 		}, expirationTime * 1000);
+// 	};
+// };
 
 export const auth = (email, password, isSignUp, firebase) => {
 	return (dispatch) => {
@@ -48,51 +53,33 @@ export const auth = (email, password, isSignUp, firebase) => {
 			email: email,
 			password: password,
 			returnSecureToken: true,
-    };
-		firebase
-      .auth(isSignUp, email, password)
-			.then((res) => {
-			  console.log(res);
-			  const expDate = new Date(
-					new Date().getTime() + res.data.expiresIn * 1000
-					);
-					localStorage.setItem('token', res.data.idToken);
-					localStorage.setItem('expirationTime', expDate);
-					localStorage.setItem('userId', res.data.localId);
-					dispatch(authSuccess(res.data.idToken, res.data.localId));
-					dispatch(checkAuthTimeout(res.data.expiresIn));
+		};
+		if (isSignUp) {
+			firebase
+				.createUser(email, password)
+				.then((res) => {
+					dispatch(authSuccess(res.user.refreshToken, res.user.uid));
+					localStorage.setItem('token', res.user.refreshToken);
+					localStorage.setItem('userId', res.user.uid);
+				})
+				.catch((err) => {
+					console.log('error', err);
+					dispatch(authFail(err));
+				});
+		}
+		//refactor? (can't create a methods with custom name in Firebase constructor)
+		else {
+			firebase
+				.signInUser(email, password)
+				.then((res) => {
+					dispatch(authSuccess(res.user.refreshToken, res.user.uid));
+					localStorage.setItem('token', res.user.refreshToken);
+					localStorage.setItem('userId', res.user.uid);
 				})
 				.catch((err) => dispatch(authFail(err)));
-    }
-  }
-
-
-		// let url =
-		// 	'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDjV1IMzNjYHadXNjfbomHhOsQlFZQeFk4';
-		// if (!isSignup) {
-		// 	url =
-		// 		'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDjV1IMzNjYHadXNjfbomHhOsQlFZQeFk4';
-		// }
-		// axios
-		// 	.post(url, authData)
-		// 	.then((res) => {
-		// 		//from current time + time the token will be valid for
-		// 		//gteTime return the number of milliseconds
-		// 		//so it's today's date in milliseconds plus time it will expire in
-		// 		const expDate = new Date(
-		// 			new Date().getTime() + res.data.expiresIn * 1000
-		// 		);
-		// 		localStorage.setItem('token', res.data.idToken);
-		// 		localStorage.setItem('expirationTime', expDate);
-		// 		localStorage.setItem('userId', res.data.localId);
-		// 		dispatch(authSuccess(res.data.idToken, res.data.localId));
-		// 		dispatch(checkAuthTimeout(res.data.expiresIn));
-		// 	})
-		// 	.catch((err) => {
-		// 		//map it to get better error messages
-		// 		dispatch(authFail(err.response.data.error));
-		// 	});
-
+		}
+	};
+};
 
 export const setAuthRedirect = (path) => {
 	return {
@@ -102,24 +89,14 @@ export const setAuthRedirect = (path) => {
 };
 
 export const authCheckState = () => {
+  console.log('went to check state')
 	return (dispatch) => {
 		const token = localStorage.getItem('token');
 		if (!token) {
 			dispatch(logout());
 		} else {
-			//because exp time from local storage is a string
-			const expirationTime = new Date(localStorage.getItem('expirationTime'));
-			if (expirationTime <= new Date()) {
-				dispatch(logout());
-			} else {
-				const userId = localStorage.getItem('userId');
-				dispatch(authSuccess(token, userId));
-				dispatch(
-					checkAuthTimeout(
-						(expirationTime.getTime() - new Date().getTime()) / 1000
-					)
-				);
-			}
+			const userId = localStorage.getItem('userId');
+			dispatch(authSuccess(token, userId));
 		}
 	};
 };
