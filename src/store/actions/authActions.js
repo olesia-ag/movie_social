@@ -53,7 +53,7 @@ export const auth = (email, password, isSignUp, firebase) => {
 					dispatch(authFail(err));
 				});
 		}
-		//refactor? (can't create a methods with custom name in Firebase constructor)
+		//refactor? (can't create a methods with custom name in Firebase constructor, other way?)
 		else {
 			firebase
 				.signInUser(email, password)

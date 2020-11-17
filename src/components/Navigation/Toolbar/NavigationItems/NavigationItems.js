@@ -8,10 +8,12 @@ const NavigationItems = (props) => {
 	return (
 		<div className={classes.NavigationContainer}>
 			<ul className={classes.NavigationList}>
-				<NavigationItem link='#'>MENU ITEM 1</NavigationItem>
-
 				{props.isAuthenticated ? (
-					<NavigationItem link='/logout'>Logout</NavigationItem>
+					<>
+						<NavigationItem link='/'>Dashboard</NavigationItem>
+						<NavigationItem link='/searchmovies'>Search Movies</NavigationItem>
+						<NavigationItem link='/logout'>Logout</NavigationItem>
+					</>
 				) : (
 					<>
 						<NavigationItem link='/auth'>Sign up/Login</NavigationItem>

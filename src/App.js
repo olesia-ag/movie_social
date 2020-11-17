@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import classes from './App.module.css';
 import { Switch, Redirect, Route, withRouter } from 'react-router-dom';
 import Layout from './containers/hoc/Layout/Layout';
-import Main from './containers/Main';
+import MoviesMain from './containers/MoviesMain/MoviesMain';
 import Auth from './containers/Auth/Auth';
 import { FirebaseContext } from './firebase';
 import Logout from './containers/Auth/Logout/Logout';
@@ -16,7 +16,7 @@ const App = (props) => {
 
 	let routes = (
 		<Switch>
-			<Route path='/' exact component={Main} />
+			<Route path='/' exact component={MoviesMain} />
 			<Route
 				path='/auth'
 				render={(props) => (
@@ -33,6 +33,7 @@ const App = (props) => {
 		routes = (
 			<Switch>
 				<Route path='/' exact render={(props) => <Dashboard {...props} />} />
+				<Route path='/searchmovies' exact component={MoviesMain} />
 				<Route path='/logout' component={Logout} />
 				<Route
 					path='/auth'

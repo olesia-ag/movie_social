@@ -1,0 +1,18 @@
+.NominatedMoviesContainer {
+	border: 0.2rem solid var(--lightPink);
+	box-shadow: 0.5rem 0.5rem 0.5rem 0 rgba(206, 182, 183, 1);
+	padding: 0.5rem;
+	min-height: 60vh;
+}
+
+.NominatedMovies {
+	width: 90%;
+}
+
+
+ol {
+	margin: 2rem;
+	padding: 0;
+}
+
+

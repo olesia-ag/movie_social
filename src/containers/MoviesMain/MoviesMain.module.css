@@ -1,0 +1,39 @@
+.LayoutContainer {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	margin: auto;
+	justify-content: center;
+	align-items: center;
+}
+
+.FindContainer {
+	width: 100%;
+	margin: .3rem;
+	border: 1px solid lightgreen;
+}
+
+.MoviesContainer {
+	display: flex;
+	flex-direction: column;
+	margin: .5rem;
+	border: 1px solid darkblue;
+
+}
+
+
+@media (min-width: 769px) {
+	.MoviesContainer {
+		flex-direction: row;
+		margin: 2rem;
+	}
+
+	.NominatedMovies {
+		flex: 1;
+		max-width: 50%;
+	}
+
+	.DisplayMovies {
+		flex: 1;
+	}
+}

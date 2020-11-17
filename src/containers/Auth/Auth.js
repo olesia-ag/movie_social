@@ -110,7 +110,6 @@ const Auth = (props) => {
 	};
 
 	const checkValidFields = (isSignUp) => {
-		console.log('went to checkValidFields', isSignUp);
 		let errors = 0;
 		if (!checkValidity(name.value, name.validation) && isSignUp) {
 			errors++;
@@ -145,17 +144,14 @@ const Auth = (props) => {
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-		console.log('went to submit handler');
 		if (signIn) {
 			if (checkValidFields(false)) {
-				console.log('got to if');
 				props.onAuth(email.value, password.value, false, props.firebase);
 			} else {
 				setFormInvalid(true);
 			}
 		} else {
 			if (checkValidFields(true)) {
-				console.log('got to else if');
 				props.onAuth(email.value, password.value, true, props.firebase);
 			} else {
 				setFormInvalid(true);
@@ -222,6 +218,7 @@ const Auth = (props) => {
 					Your name
 				</label>
 				<input
+					className={classes.AuthInput}
 					type='text'
 					name='name'
 					value={name.value}
@@ -231,6 +228,7 @@ const Auth = (props) => {
 					Email
 				</label>
 				<input
+					className={classes.AuthInput}
 					type='email'
 					name='email'
 					value={email.value}
@@ -240,6 +238,7 @@ const Auth = (props) => {
 					Password
 				</label>
 				<input
+					className={classes.AuthInput}
 					type='password'
 					name='password'
 					value={password.value}
@@ -249,6 +248,7 @@ const Auth = (props) => {
 					Re-enter password
 				</label>
 				<input
+					className={classes.AuthInput}
 					type='password'
 					name='repeatPassword'
 					value={repeatPassword.value}
@@ -278,6 +278,7 @@ const Auth = (props) => {
 						Email
 					</label>
 					<input
+						className={classes.AuthInput}
 						type='email'
 						name='email'
 						value={email.value}
@@ -287,6 +288,7 @@ const Auth = (props) => {
 						Password
 					</label>
 					<input
+						className={classes.AuthInput}
 						type='password'
 						name='password'
 						value={password.value}

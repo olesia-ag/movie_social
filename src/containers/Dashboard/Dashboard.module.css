@@ -1,0 +1,14 @@
+.Dashboard {
+	display: flex;
+	flex-direction: row;
+}
+
+.SocialContainer {
+  flex: 2;
+  border: 1px solid red;
+}
+
+.MoviesContainer {
+  flex: 1;
+  border: 1px solid blue;
+}

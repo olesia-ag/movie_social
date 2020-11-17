@@ -2,6 +2,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	border: 1px solid green;
 }
 
 .AuthForm {
@@ -24,13 +25,18 @@
 	cursor: pointer;
 }
 
-.AuthLabel {
+.AuthLabel{
 	font-weight: 700;
 	font-size: small;
 	align-self: flex-start;
 	margin-top: 0.5rem;
 }
 
+.AuthInput {
+	width: 100%;
+	border-bottom: 1px solid black;
+	max-height: 2rem;
+}
 .AuthError {
 	display: flex;
 	flex-direction: row;
