@@ -9,6 +9,7 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import authReducer from './store/reducers/authReducer';
+import moviesReducer from './store/reducers/moviesReducer';
 import * as serviceWorker from './serviceWorker';
 import Firebase, { FirebaseContext } from './firebase';
 
@@ -16,6 +17,7 @@ import Firebase, { FirebaseContext } from './firebase';
 const composeEnhancers = composeWithDevTools({ trace: true, traceLimit: 25 });
 const rootReducer = combineReducers({
 	auth: authReducer,
+	movies: moviesReducer
 });
 const store = createStore(
 	rootReducer,

@@ -7,10 +7,10 @@ export const searchMoviesStart = () => {
 	};
 };
 
-export const searchMovies = (movieTitle = () => {
+export const searchMovies = (movieTitle) => {
 	return (dispatch) => {
 		dispatch(searchMoviesStart());
-		const query = `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&type="movie"&s="${movieToFind}"&`;
+		const query = `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&type="movie"&s="${movieTitle}"&`;
 		axios
 			.get(query, {
 				timeout: 6000,
@@ -25,7 +25,7 @@ export const searchMovies = (movieTitle = () => {
 				searchMoviesFailed(error);
 			});
 	};
-});
+}
 
 export const searchMoviesSuccess = (movies) => {
 	return {

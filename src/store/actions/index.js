@@ -5,3 +5,6 @@ export {
 	authCheckState,
 	authClear,
 } from './authActions';
+export {
+	searchMovies
+} from './moviesActions';
