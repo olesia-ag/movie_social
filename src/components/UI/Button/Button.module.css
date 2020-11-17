@@ -10,7 +10,8 @@ button.Button {
 	font-weight: bold;
 	font: inherit;
 	padding: .5rem 1rem;
-	width: 7rem;
+	margin: .5rem;
+	/* width: 5rem; */
 	border-radius: 0.9em;
 	border-color: var(--primary-dark-color);
 }

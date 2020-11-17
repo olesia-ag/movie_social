@@ -10,16 +10,16 @@ const SingleMovie = ({
 	nominated,
 	disable,
 }) => (
-	<div className={classes.MovieContainer}>
-		<span className={classes.Movie}>
+	<div className={classes.SingleMovieContainer}>
+		<span className={classes.SingleMovie}>
 			{title} ({released})
 		</span>
 		<span className={classes.Button}>
 				{nominated ? (
-			<Button clicked={remove}>REMOVE</Button>
+			<Button clicked={remove}>remove</Button>
 		) : (
 			<Button clicked={nominate} disabled={disable}>
-				NOMINATE
+				nominate
 			</Button>
 		)}
 		</span>

@@ -6,14 +6,10 @@ import { Redirect } from 'react-router-dom';
 const Logout = (props) => {
   const { onLogout } = props;
 
-  console.log('logout', props.onLogout);
-
 	useEffect(() => {
 		onLogout();
 	}, [onLogout]);
-
   return <Redirect to='/' />;
-
 };
 
 const mapDispatchToProps = (dispatch) => {

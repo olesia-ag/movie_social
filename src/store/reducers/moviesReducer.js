@@ -1,6 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
-import { authStart } from '../actions/authActions';
+
 
 const initialState = {
 	foundMovies: [],
@@ -15,17 +15,17 @@ const searchMoviesStart = (state, action) => {
 };
 
 const searchMoviesSuccess = (state, action) => {
-	return updateObject(state, { loading: false, movies: action.movies });
+	return updateObject(state, { loading: false, foundMovies: action.movies });
 };
 
 const searchMoviesFail = (state, action) => {
 	return updateObject(state, { loading: false, error: action.error });
 };
 
-const reducer = (state = initialState, action) => {
+const moviesReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case actionTypes.SEARCH_MOVIES_START:
-			return authStart(state, action);
+			return searchMoviesStart(state, action);
 
 		case actionTypes.SEARCH_MOVIES_SUCCESS:
 			return searchMoviesSuccess(state, action);
@@ -38,4 +38,4 @@ const reducer = (state = initialState, action) => {
 	}
 };
 
-export default reducer
+export default moviesReducer

@@ -36,7 +36,7 @@ const Layout = (props) => {
 	);
 };
 
-Layout.whyDidYouRender = true;
+// Layout.whyDidYouRender = true;
 
 const mapStateToProps = (state) => {
 	console.log('state', state);

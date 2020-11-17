@@ -11,6 +11,7 @@ export const searchMovies = (movieTitle) => {
 	return (dispatch) => {
 		dispatch(searchMoviesStart());
 		const query = `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&type="movie"&s="${movieTitle}"&`;
+		console.log('query', query);
 		axios
 			.get(query, {
 				timeout: 6000,
@@ -18,14 +19,14 @@ export const searchMovies = (movieTitle) => {
 			.then((res) => {
 				if (res.data.Response === 'False') throw Error(res.data.Error);
 				else {
-					searchMoviesSuccess(res.data.Search);
+					dispatch(searchMoviesSuccess(res.data.Search));
 				}
 			})
 			.catch((error) => {
-				searchMoviesFailed(error);
+				dispatch(searchMoviesFailed(error));
 			});
 	};
-}
+};
 
 export const searchMoviesSuccess = (movies) => {
 	return {

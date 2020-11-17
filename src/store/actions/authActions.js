@@ -29,7 +29,6 @@ export const authFail = (error) => {
 };
 
 export const logout = () => {
-  console.log('logout was called')
 	localStorage.removeItem('token');
 	localStorage.removeItem('userId');
 	return {
@@ -74,8 +73,8 @@ export const setAuthRedirect = (path) => {
 	};
 };
 
+//will need to confirm the token
 export const authCheckState = () => {
-  console.log('went to check state')
 	return (dispatch) => {
 		const token = localStorage.getItem('token');
 		if (!token) {
