@@ -2,29 +2,25 @@ import React from 'react';
 import Button from '../UI/Button/Button';
 import classes from './SingleMovie.module.css';
 
-const SingleMovie = ({
-	title,
-	remove,
-	released,
-	nominate,
-	nominated,
-	disable,
-}) => (
-	<div className={classes.SingleMovieContainer}>
-		<span className={classes.SingleMovie}>
-			{title} ({released})
-		</span>
-		<span className={classes.Button}>
-				{nominated ? (
-			<Button clicked={remove}>remove</Button>
-		) : (
-			<Button clicked={nominate} disabled={disable}>
-				nominate
-			</Button>
-		)}
-		</span>
+const SingleMovie = ({ title, remove, released, addFavorite, isFavorite, disableAdd }) => {
+	// console.log('isFavorite', isFavorite());
 
-	</div>
-);
+	return (
+		<div className={classes.SingleMovieContainer}>
+			<span className={classes.SingleMovie}>
+				{title} ({released})
+			</span>
+			<span className={classes.Button}>
+				{isFavorite ? (
+					<Button clicked={remove}>remove</Button>
+				) : (
+					<Button clicked={addFavorite} disabled={disableAdd}>
+						nominate
+					</Button>
+				)}
+			</span>
+		</div>
+	);
+};
 
 export default SingleMovie;

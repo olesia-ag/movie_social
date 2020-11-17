@@ -1,4 +1,4 @@
-.LayoutContainer {
+.MoviesMainContainer {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -9,31 +9,43 @@
 
 .FindContainer {
 	width: 100%;
-	margin: .3rem;
-	border: 1px solid lightgreen;
+	margin: 0.3rem;
 }
 
 .MoviesContainer {
+	width: 90%;
 	display: flex;
 	flex-direction: column;
-	margin: .5rem;
+	margin: 0.5rem;
 	border: 1px solid darkblue;
-
 }
 
+.FavoriteMovies {
+	flex: 1;
+	max-width: 50%;
+	border: 1px solid orange;
+}
+
+.FoundMovies {
+	flex: 1;
+	border: 1px solid yellow;
+}
 
 @media (min-width: 769px) {
+	.FindContainer {
+		width: 90%;
+		border-radius: 0.5rem;
+		transition: box-shadow 0.5s ease-in-out;
+	}
+
+	.FindContainer:hover {
+		-webkit-box-shadow: 6px 6px 18px 0px rgba(176, 21, 176, 1);
+		-moz-box-shadow: 6px 6px 18px 0px rgba(176, 21, 176, 1);
+		box-shadow: 6px 6px 18px 0px rgba(176, 21, 176, 1);
+	}
+
 	.MoviesContainer {
 		flex-direction: row;
 		margin: 2rem;
-	}
-
-	.NominatedMovies {
-		flex: 1;
-		max-width: 50%;
-	}
-
-	.DisplayMovies {
-		flex: 1;
 	}
 }

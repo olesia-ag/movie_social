@@ -1,14 +1,8 @@
 import React from 'react';
 import classes from './DisplayMovies.module.css';
-import {SingleMovie} from '../SingleMovie';
+import { SingleMovie } from '../SingleMovie';
 
-const DisplayMovies = ({
-	foundMovie,
-	addMovie,
-	checkIfNominated,
-	checkLimit,
-	movies
-}) => {
+const DisplayMovies = ({ foundMovie, addFavorite, movies, checkFavorite }) => {
 	return (
 		<div className={classes.DisplayMoviesContainer}>
 			<h5>Found for '{foundMovie}':</h5>
@@ -20,8 +14,8 @@ const DisplayMovies = ({
 							id={movie.imdbID}
 							poster={movie.Poster}
 							released={movie.Year}
-							// nominate={() => addMovie(movie)}
-							// disable={checkIfNominated(movie.imdbID) || checkLimit()}
+							addFavorite={() => addFavorite(movie)}
+							disableAdd={checkFavorite(movie.imdbID)}
 						/>
 					</li>
 				))}

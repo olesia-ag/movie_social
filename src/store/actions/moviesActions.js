@@ -1,6 +1,20 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
+export const addFavorite = (movie) => {
+  return {
+    type: actionTypes.ADD_FAVORITE_MOVIE,
+    movie
+  }
+}
+
+export const removeFavorite = (movieId) => {
+  return {
+    type: actionTypes.REMOVE_FAVORITE_MOVIE,
+    movieId
+  }
+}
+
 export const searchMoviesStart = () => {
 	return {
 		type: actionTypes.SEARCH_MOVIES_START,
@@ -41,3 +55,5 @@ export const searchMoviesFailed = (error) => {
 		error,
 	};
 };
+
+

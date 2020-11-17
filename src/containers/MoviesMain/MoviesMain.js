@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NominatedMovies } from '../NominatedMovies/';
+import { FavoriteMovies } from '../FavoriteMovies/';
 import { FindMovies } from '../../components/FindMovies';
 import { DisplayMovies } from '../../components/DisplayMovies';
 import classes from './MoviesMain.module.css';
@@ -18,23 +18,30 @@ const MoviesMain = (props) => {
 		setMovieToFind(event.target.value);
 	};
 
-	let showMovies = null;
+	const checkFavorite = (movieID) => {
+		if (props.favoriteMovies.some((movie) => movie.imdbID === movieID)) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
+	let showMovies = <p>start searching for something!</p>;
 	if (props.foundMovies.length) {
 		showMovies = (
-			<div className={classes.NominatedMovies}>
+			<>
 				<DisplayMovies
 					foundMovie={movieToFind}
-					addMovie={props.addToFavorites}
-					checkIfNominated={props.checkIfNominated}
-					checkLimit={props.checkLimit}
+					addFavorite={props.addFavorite}
 					movies={props.foundMovies}
+					checkFavorite={checkFavorite}
 				/>
-			</div>
+			</>
 		);
 	}
 
 	return (
-		<div className={classes.LayoutContainer}>
+		<div className={classes.MoviesMainContainer}>
 			<div className={classes.FindContainer}>
 				<FindMovies
 					findMovies={() => props.findMovies(movieToFind)}
@@ -43,8 +50,13 @@ const MoviesMain = (props) => {
 					movieToFind={movieToFind}
 				/>
 			</div>
-			{showMovies}
-			<div className={classes.MoviesContainer}></div>
+
+			<div className={classes.MoviesContainer}>
+				<div className={classes.FavoriteMovies}>
+					<FavoriteMovies checkFavorite={checkFavorite}/>
+				</div>
+				<div className={classes.FoundMovies}>{showMovies}</div>
+			</div>
 		</div>
 	);
 };
@@ -62,6 +74,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		findMovies: (movieTitle) => dispatch(actions.searchMovies(movieTitle)),
+		addFavorite: (movie) => dispatch(actions.addFavorite(movie)),
 	};
 };
 

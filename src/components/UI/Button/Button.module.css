@@ -13,7 +13,8 @@ button.Button {
 	margin: .5rem;
 	/* width: 5rem; */
 	border-radius: 0.9em;
-	border-color: var(--primary-dark-color);
+	border: solid pink;
+	outline-style: none;
 }
 
 button.Button:hover:not([disabled]){

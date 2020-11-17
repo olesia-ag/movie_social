@@ -1,13 +1,13 @@
 import React from 'react';
 import MoviesMain from '../MoviesMain/MoviesMain';
-import NominatedMovies from '../NominatedMovies/NominatedMovies';
+import { FavoriteMovies } from '../FavoriteMovies';
 import classes from './Dashboard.module.css';
 
 const Dashboard = (props) => {
 	return (
 		<div className={classes.Dashboard}>
 			<div className={classes.MoviesContainer}>
-				<NominatedMovies />
+				<FavoriteMovies />
 			</div>
 			<div className={classes.SocialContainer}>
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam gravida ut

@@ -5,6 +5,4 @@ export {
 	authCheckState,
 	authClear,
 } from './authActions';
-export {
-	searchMovies
-} from './moviesActions';
+export { searchMovies, addFavorite, removeFavorite } from './moviesActions';
