@@ -2,26 +2,64 @@ import React from 'react';
 import classes from './DisplayMovies.module.css';
 import { SingleMovie } from '../SingleMovie';
 
-const DisplayMovies = ({ foundMovie, addFavorite, movies, checkFavorite }) => {
-	return (
-		<div className={classes.DisplayMoviesContainer}>
-			<h5>Found for '{foundMovie}':</h5>
-			<ul className={classes.DisplayMoviesList}>
-				{movies.map((movie) => (
-					<li key={movie.imdbID}>
-						<SingleMovie
-							title={movie.Title}
-							id={movie.imdbID}
-							poster={movie.Poster}
-							released={movie.Year}
-							addFavorite={() => addFavorite(movie)}
-							disableAdd={checkFavorite(movie.imdbID)}
-						/>
-					</li>
-				))}
-			</ul>
-		</div>
-	);
+const DisplayMovies = ({
+	favorite,
+	searched,
+	toWatch,
+	foundMovie,
+	movies,
+	add,
+	remove,
+	isFavorite,
+}) => {
+	let displayMovies;
+	if (favorite) {
+		displayMovies = <p>nominate some movies first!</p>;
+		if (movies.length) {
+			displayMovies = (
+				<div>
+					<ol>
+						{movies.map((movie) => (
+							<li key={movie.imdbID}>
+								<SingleMovie
+									title={movie.Title}
+									released={movie.Year}
+									poster={movie.Poster}
+									remove={() => remove(movie.imdbID)}
+									isFavorite
+								/>
+							</li>
+						))}
+					</ol>
+				</div>
+			);
+		}
+	} else {
+		displayMovies = <p>search for movies first!</p>;
+		if (movies.length) {
+			displayMovies = (
+				<>
+					<h5>Found for '{foundMovie}':</h5>
+					<ul className={classes.DisplayMoviesList}>
+						{movies.map((movie) => (
+							<li key={movie.imdbID}>
+								<SingleMovie
+									title={movie.Title}
+									id={movie.imdbID}
+									poster={movie.Poster}
+									released={movie.Year}
+									addFavorite={() => add(movie)}
+									disableAdd={isFavorite(movie.imdbID)}
+								/>
+							</li>
+						))}
+					</ul>
+				</>
+			);
+		}
+	}
+
+	return <div className={classes.DisplayMoviesContainer}>{displayMovies}</div>;
 };
 
 export default DisplayMovies;

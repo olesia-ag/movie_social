@@ -39,7 +39,6 @@ const Layout = (props) => {
 // Layout.whyDidYouRender = true;
 
 const mapStateToProps = (state) => {
-	console.log('state', state);
 	return {
 		isAuthenticated: !!state.auth.idToken,
 	};

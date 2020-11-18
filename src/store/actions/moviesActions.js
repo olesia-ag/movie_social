@@ -1,19 +1,59 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
+
+
+//for logged in user, fetch from db
+// export const fetchFavoriteMovies = () =>{
+//   return(dispatch) => {
+
+//   }
+// }
+
+export const fetchFromStorage = () => {
+	return (dispatch) => {
+    const moviesArr = JSON.parse(localStorage.getItem('Movies'));
+    console.log('went to fetch from storage', moviesArr)
+		if (moviesArr) {
+			dispatch(fetchFavoriteMoviesSuccess(moviesArr));
+		}
+	};
+};
+
+export const fetchFavoriteMoviesStart = () => {
+	return {
+		type: actionTypes.FETCH_FAVORITE_MOVIES_START,
+	};
+};
+
+export const fetchFavoriteMoviesSuccess = (favoriteMovies) => {
+  console.log('success')
+	return {
+		type: actionTypes.FETCH_FAVORITE_MOVIES_SUCCESS,
+		favoriteMovies,
+	};
+};
+
+export const fetchFavoriteMoviesFailed = (error) => {
+	return {
+		type: actionTypes.FETCH_FAVORITE_MOVIES_FAILED,
+		error,
+	};
+};
+
 export const addFavorite = (movie) => {
-  return {
-    type: actionTypes.ADD_FAVORITE_MOVIE,
-    movie
-  }
-}
+	return {
+		type: actionTypes.ADD_FAVORITE_MOVIE,
+		movie,
+	};
+};
 
 export const removeFavorite = (movieId) => {
-  return {
-    type: actionTypes.REMOVE_FAVORITE_MOVIE,
-    movieId
-  }
-}
+	return {
+		type: actionTypes.REMOVE_FAVORITE_MOVIE,
+		movieId,
+	};
+};
 
 export const searchMoviesStart = () => {
 	return {
@@ -55,5 +95,3 @@ export const searchMoviesFailed = (error) => {
 		error,
 	};
 };
-
-

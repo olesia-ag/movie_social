@@ -3,23 +3,11 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
 	foundMovies: [],
-	favoriteMovies: [],
 	error: null,
 	loading: false,
-	limitReached: false,
 };
 
-const addFavorite = (state, action) => {
-	const newFavoriteMovies = state.favoriteMovies.concat(action.movie);
-	return updateObject(state, { favoriteMovies: newFavoriteMovies });
-};
 
-const removeFavorite = (state, action) => {
-	const newFavoriteMovies = state.favoriteMovies.filter(
-		(movie) => movie.imdbID !== action.movieId
-	);
-	return updateObject(state, { favoriteMovies: newFavoriteMovies });
-};
 
 const searchMoviesStart = (state, action) => {
 	return updateObject(state, { error: null, loading: true });
@@ -43,12 +31,6 @@ const moviesReducer = (state = initialState, action) => {
 
 		case actionTypes.SEARCH_MOVIES_FAILED:
 			return searchMoviesFail(state, action);
-
-		case actionTypes.ADD_FAVORITE_MOVIE:
-			return addFavorite(state, action);
-
-		case actionTypes.REMOVE_FAVORITE_MOVIE:
-			return removeFavorite(state, action);
 
 		default:
 			return state;

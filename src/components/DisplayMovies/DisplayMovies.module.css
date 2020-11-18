@@ -1,5 +1,7 @@
 .DisplayMoviesContainer {
-  margin: 2rem 0 0 2rem;
+  margin: 1rem;
+	padding: 0.5rem;
+  min-height: 60vh;
 }
 
 .DisplayMoviesList{

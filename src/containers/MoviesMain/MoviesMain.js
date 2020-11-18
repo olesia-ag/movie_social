@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { FavoriteMovies } from '../FavoriteMovies/';
 import { FindMovies } from '../../components/FindMovies';
 import { DisplayMovies } from '../../components/DisplayMovies';
 import classes from './MoviesMain.module.css';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
+
+
 
 const MoviesMain = (props) => {
 	const [movieToFind, setMovieToFind] = useState('');
@@ -18,27 +19,13 @@ const MoviesMain = (props) => {
 		setMovieToFind(event.target.value);
 	};
 
-	const checkFavorite = (movieID) => {
+	const checkIfFavorite = (movieID) => {
 		if (props.favoriteMovies.some((movie) => movie.imdbID === movieID)) {
 			return true;
 		} else {
 			return false;
 		}
 	};
-
-	let showMovies = <p>start searching for something!</p>;
-	if (props.foundMovies.length) {
-		showMovies = (
-			<>
-				<DisplayMovies
-					foundMovie={movieToFind}
-					addFavorite={props.addFavorite}
-					movies={props.foundMovies}
-					checkFavorite={checkFavorite}
-				/>
-			</>
-		);
-	}
 
 	return (
 		<div className={classes.MoviesMainContainer}>
@@ -53,9 +40,10 @@ const MoviesMain = (props) => {
 
 			<div className={classes.MoviesContainer}>
 				<div className={classes.FavoriteMovies}>
-					<FavoriteMovies checkFavorite={checkFavorite}/>
+					<DisplayMovies favorite movies={props.favoriteMovies} remove={props.removeFavorite} />
 				</div>
-				<div className={classes.FoundMovies}>{showMovies}</div>
+				<div className={classes.FoundMovies}>
+					<DisplayMovies searched movies={props.foundMovies} add={props.addFavorite} foundMovie={movieToFind} isFavorite={checkIfFavorite}/></div>
 			</div>
 		</div>
 	);
@@ -66,15 +54,15 @@ const mapStateToProps = (state) => {
 		loading: state.movies.loading,
 		error: state.movies.error,
 		foundMovies: state.movies.foundMovies,
-		favoriteMovies: state.movies.favoriteMovies,
-		limitReached: state.movies.limitReached,
-		//also should be some state of favorite movies added already
+		favoriteMovies: state.favoriteMovies.favoriteMovies,
+		limitReached: state.favoriteMovies.limitReached,
 	};
 };
 const mapDispatchToProps = (dispatch) => {
 	return {
 		findMovies: (movieTitle) => dispatch(actions.searchMovies(movieTitle)),
 		addFavorite: (movie) => dispatch(actions.addFavorite(movie)),
+		removeFavorite: (movieId) => dispatch(actions.removeFavorite(movieId))
 	};
 };
 

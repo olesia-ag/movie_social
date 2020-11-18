@@ -4,7 +4,6 @@ import NavigationItem from './NavigationItem/NavigationItem';
 import { pure } from 'recompose';
 
 const NavigationItems = (props) => {
-	console.log('props', props);
 	return (
 		<div className={classes.NavigationContainer}>
 			<ul className={classes.NavigationList}>
