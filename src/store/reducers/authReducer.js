@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
+	name: null,
 	idToken: null,
 	userId: null,
 	error: null,
@@ -18,6 +19,7 @@ const authSuccess = (state, action) => {
 		userId: action.userId,
 		error: null,
 		loading: false,
+		name: action.name
 	});
 };
 

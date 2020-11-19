@@ -4,6 +4,7 @@ import Toolbar from '../../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../../components/Navigation/Toolbar/SideDrawer/SideDrawer';
 import Footer from '../../../components/Navigation/Footer/Footer';
 import Modal from '../../../components/UI/Modal/Modal';
+import * as actions from '../../../store/actions';
 import { connect } from 'react-redux';
 
 const Layout = (props) => {
@@ -23,6 +24,7 @@ const Layout = (props) => {
 				drawerToggleClicked={sideDrawerToggleHandler}
 				sideDrawerOpen={showSideDrawer}
 				isAuth={props.isAuthenticated}
+				name = {props.name}
 			/>
 			<SideDrawer
 				closed={sideDrawerClosedHandler}
@@ -41,6 +43,8 @@ const Layout = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		isAuthenticated: !!state.auth.idToken,
+		name: state.auth.name
 	};
 };
+
 export default connect(mapStateToProps)(Layout);

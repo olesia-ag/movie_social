@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FindMovies } from '../../components/FindMovies';
 import { DisplayMovies } from '../../components/DisplayMovies';
+import { withFirebase } from '../../firebase/context';
 import classes from './MoviesMain.module.css';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
-
-
 
 const MoviesMain = (props) => {
 	const [movieToFind, setMovieToFind] = useState('');
@@ -40,10 +39,21 @@ const MoviesMain = (props) => {
 
 			<div className={classes.MoviesContainer}>
 				<div className={classes.FavoriteMovies}>
-					<DisplayMovies favorite movies={props.favoriteMovies} remove={props.removeFavorite} />
+					<DisplayMovies
+						favorite
+						movies={props.favoriteMovies}
+						remove={props.removeFavorite}
+					/>
 				</div>
 				<div className={classes.FoundMovies}>
-					<DisplayMovies searched movies={props.foundMovies} add={props.addFavorite} foundMovie={movieToFind} isFavorite={checkIfFavorite}/></div>
+					<DisplayMovies
+						searched
+						movies={props.foundMovies}
+						add={props.addFavorite}
+						foundMovie={movieToFind}
+						isFavorite={checkIfFavorite}
+					/>
+				</div>
 			</div>
 		</div>
 	);
@@ -61,9 +71,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		findMovies: (movieTitle) => dispatch(actions.searchMovies(movieTitle)),
-		addFavorite: (movie) => dispatch(actions.addFavorite(movie)),
+		addFavorite: (movie, db) => dispatch(actions.addFavorite(movie, db)),
 		removeFavorite: (movieId) => dispatch(actions.removeFavorite(movieId))
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MoviesMain);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(withFirebase(MoviesMain));

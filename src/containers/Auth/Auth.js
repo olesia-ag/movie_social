@@ -3,6 +3,7 @@ import { checkValidity, checkMatch } from '../../shared/utility';
 import * as actions from '../../store/actions';
 import { connect } from 'react-redux';
 import classes from './Auth.module.css';
+import { withFirebase } from '../../firebase/context';
 import { Redirect } from 'react-router-dom';
 
 const Auth = (props) => {
@@ -146,13 +147,21 @@ const Auth = (props) => {
 		e.preventDefault();
 		if (signIn) {
 			if (checkValidFields(false)) {
-				props.onAuth(email.value, password.value, false, props.firebase);
+				props.onAuth(
+					{ email: email.value, password: password.value },
+					false,
+					props.firebase
+				);
 			} else {
 				setFormInvalid(true);
 			}
 		} else {
 			if (checkValidFields(true)) {
-				props.onAuth(email.value, password.value, true, props.firebase);
+				props.onAuth(
+					{ email: email.value, password: password.value, name: name.value },
+					true,
+					props.firebase
+				);
 			} else {
 				setFormInvalid(true);
 			}
@@ -322,7 +331,7 @@ const Auth = (props) => {
 			);
 		}
 	}
-//look into Redirect 'flashing' behavior
+	//look into Redirect 'flashing' behavior
 	let authRedirect = null;
 	if (props.isAuthenticated) {
 		authRedirect = <Redirect to={props.authRedirect} />;
@@ -347,13 +356,13 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onAuth: (email, password, isSignup, firebase) =>
-			dispatch(actions.auth(email, password, isSignup, firebase)),
+		onAuth: (userData, isSignup, firebase) =>
+			dispatch(actions.auth(userData, isSignup, firebase)),
 		onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirect('/')),
 		authClear: () => dispatch(actions.authClear()),
 	};
 };
 
-Auth.whyDidYouRender = true;
+// Auth.whyDidYouRender = true;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(withFirebase(Auth));

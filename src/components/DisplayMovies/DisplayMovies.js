@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './DisplayMovies.module.css';
 import { SingleMovie } from '../SingleMovie';
+import { withFirebase } from '../../firebase/context';
 
 const DisplayMovies = ({
 	favorite,
@@ -11,6 +12,7 @@ const DisplayMovies = ({
 	add,
 	remove,
 	isFavorite,
+	...rest
 }) => {
 	let displayMovies;
 	if (favorite) {
@@ -48,7 +50,7 @@ const DisplayMovies = ({
 									id={movie.imdbID}
 									poster={movie.Poster}
 									released={movie.Year}
-									addFavorite={() => add(movie)}
+									addFavorite={() => add(movie, rest.firebase)}
 									disableAdd={isFavorite(movie.imdbID)}
 								/>
 							</li>
@@ -62,4 +64,4 @@ const DisplayMovies = ({
 	return <div className={classes.DisplayMoviesContainer}>{displayMovies}</div>;
 };
 
-export default DisplayMovies;
+export default withFirebase(DisplayMovies);

@@ -1,6 +1,5 @@
 import * as actionTypes from './actionTypes';
 
-
 export const authClear = () => {
 	return {
 		type: actionTypes.AUTH_CLEAR,
@@ -13,11 +12,12 @@ export const authStart = () => {
 	};
 };
 
-export const authSuccess = (idToken, userId) => {
+export const authSuccess = (idToken, userId, name) => {
 	return {
 		type: actionTypes.AUTH_SUCCESS,
-		idToken: idToken,
-		userId: userId,
+		idToken,
+		userId,
+		name
 	};
 };
 
@@ -36,30 +36,61 @@ export const logout = () => {
 	};
 };
 
-export const auth = (email, password, isSignUp, firebase) => {
+export const getUser = (firebase) => {
+	return (dispatch) => {
+		console.log(firebase.user());
+	};
+};
+
+export const auth = (userData, isSignUp, firebase) => {
 	return (dispatch) => {
 		dispatch(authStart());
 		if (isSignUp) {
-			firebase
-				.createUser(email, password)
-				.then((res) => {
-					dispatch(authSuccess(res.user.refreshToken, res.user.uid));
-					localStorage.setItem('token', res.user.refreshToken);
-					localStorage.setItem('userId', res.user.uid);
+			let createUser = firebase.createUser(userData.email, userData.password);
+			let addData = createUser.then((res) =>
+				firebase.db
+					.collection('users')
+					.doc(res.user.uid)
+					.set({ name: userData.name })
+			);
+			return Promise.all([createUser, addData])
+				.then(function ([createUserRes]) {
+					localStorage.setItem('token', createUserRes.user.refreshToken);
+					localStorage.setItem('userId', createUserRes.user.uid);
+					dispatch(
+						authSuccess(createUserRes.user.refreshToken, createUserRes.user.uid, userData.name)
+					);
 				})
 				.catch((err) => {
-					console.log('error', err);
 					dispatch(authFail(err));
 				});
 		}
-		//refactor? (can't create a methods with custom name in Firebase constructor, other way?)
+
+		//refactor? (a method with custom name in Firebase constructor?)
 		else {
-			firebase
-				.signInUser(email, password)
-				.then((res) => {
-					dispatch(authSuccess(res.user.refreshToken, res.user.uid));
-					localStorage.setItem('token', res.user.refreshToken);
-					localStorage.setItem('userId', res.user.uid);
+			let signIn = firebase.signInUser(userData.email, userData.password);
+			let getData = signIn.then((res) =>
+				firebase.db.collection('users').doc(res.user.uid).get()
+			);
+			let getName = getData.then((doc) => {
+				let data = doc.get('name');
+				return data;
+			});
+			return Promise.all([signIn, getData, getName])
+				.then(function ([signInRes, getDataRes, getNameRes]) {
+					console.log(
+						'signInRes',
+						signInRes,
+						'getData',
+						getDataRes,
+						'getNameRes',
+						getNameRes
+					);
+					localStorage.setItem('token', signInRes.user.refreshToken);
+					localStorage.setItem('userId', signInRes.user.uid);
+					dispatch(
+						authSuccess(signInRes.user.refreshToken, signInRes.user.uid, getNameRes)
+					);
 				})
 				.catch((err) => dispatch(authFail(err)));
 		}

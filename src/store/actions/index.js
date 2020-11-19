@@ -4,5 +4,7 @@ export {
 	setAuthRedirect,
 	authCheckState,
 	authClear,
+	getUser
 } from './authActions';
-export { searchMovies, addFavorite, removeFavorite, fetchFromStorage } from './moviesActions';
+export { searchMovies} from './moviesActions';
+export {addFavorite, removeFavorite, fetchFavorites } from './favoriteMoviesActions'
