@@ -1,7 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
-
 export const fetchFavoriteMoviesStart = () => {
 	return {
 		type: actionTypes.FETCH_FAVORITE_MOVIES_START,
@@ -34,27 +33,24 @@ export const fetchFavoriteMoviesFailed = (error) => {
 };
 
 //find user, add to existing array of favorite movies
-export const addFavorite = (movie, firebaseDb) => {
-	const favoriteMovies = JSON.parse(localStorage.getItem('Movies'));
-	const newFavoriteMovies= favoriteMovies.concat(movie);
-	localStorage.setItem('Movies', JSON.stringify(newFavoriteMovies ));
-	// 	return dispatch => {
-	// 		firebaseDb
-	// 		.collection('users')
-	// 		.add({
-	// 		first: 'Ada',
-	// 		last: 'Lovelace',
-	// 		born: 1815,
-	// 	})
-	// 		.then(function (docRef) {
-	// 			dispatch(addFavoriteSuccess())
-	// 			console.log('Document written with ID: ', docRef.id);
-	// 	})
-	// 		.catch(function (error) {
-	// 			dispatch(addFavoriteFailed(error))
-	// 			console.error('Error adding document: ', error);
-	// 	})
-	// }
+export const addFavorite = (movie, userId, firebase) => {
+	return (dispatch) => {
+		if (userId) {
+			firebase.db
+				.collection('users')
+				.doc(userId)
+				.collection('favoriteMovies')
+				.doc(movie.imdbID)
+				.set(movie)
+				.then((res) => console.log('res', res))
+				.catch((err) => dispatch(addFavoriteFailed));
+		} else {
+			const favoriteMovies = JSON.parse(localStorage.getItem('Movies'));
+			const newFavoriteMovies = favoriteMovies.concat(movie);
+			localStorage.setItem('Movies', JSON.stringify(newFavoriteMovies));
+			dispatch(addFavoriteSuccess());
+		}
+	};
 };
 
 export const addFavoriteSuccess = (movie) => {
@@ -73,27 +69,26 @@ export const addFavoriteFailed = (error) => {
 
 //should remove rom db
 export const removeFavorite = (movieId) => {
-	return dispatch => {
+	return (dispatch) => {
 		const favoriteMovies = JSON.parse(localStorage.getItem('Movies'));
 		const newFavoriteMovies = favoriteMovies.filter(
 			(movie) => movie.imdbID !== movieId
 		);
-		localStorage.setItem('Movies', JSON.stringify(newFavoriteMovies ));
-		dispatch(removeFavoriteSuccess(movieId))
+		localStorage.setItem('Movies', JSON.stringify(newFavoriteMovies));
+		dispatch(removeFavoriteSuccess(movieId));
 	};
 };
-
 
 export const removeFavoriteSuccess = (movieId) => {
 	return {
 		type: actionTypes.REMOVE_FAVORITE_MOVIE_SUCCESS,
-		movieId
-	}
-}
+		movieId,
+	};
+};
 
 export const removeFavoriteFailed = (error) => {
 	return {
 		type: actionTypes.REMOVE_FAVORITE_MOVIE_FAILED,
-		error
-	}
-}
+		error,
+	};
+};

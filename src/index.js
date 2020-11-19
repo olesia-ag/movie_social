@@ -1,7 +1,7 @@
+// import './wdyr';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-// import './wdyr';
 import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';

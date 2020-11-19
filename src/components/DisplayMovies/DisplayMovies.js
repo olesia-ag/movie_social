@@ -4,6 +4,7 @@ import { SingleMovie } from '../SingleMovie';
 import { withFirebase } from '../../firebase/context';
 
 const DisplayMovies = ({
+	userId,
 	favorite,
 	searched,
 	toWatch,
@@ -50,7 +51,7 @@ const DisplayMovies = ({
 									id={movie.imdbID}
 									poster={movie.Poster}
 									released={movie.Year}
-									addFavorite={() => add(movie, rest.firebase)}
+									addFavorite={() => add(movie, userId, rest.firebase)}
 									disableAdd={isFavorite(movie.imdbID)}
 								/>
 							</li>

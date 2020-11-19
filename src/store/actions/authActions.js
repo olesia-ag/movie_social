@@ -43,6 +43,8 @@ export const getUser = (firebase) => {
 };
 
 export const auth = (userData, isSignUp, firebase) => {
+
+		//refactor? (a method with custom name in Firebase constructor?)
 	return (dispatch) => {
 		dispatch(authStart());
 		if (isSignUp) {
@@ -57,6 +59,7 @@ export const auth = (userData, isSignUp, firebase) => {
 				.then(function ([createUserRes]) {
 					localStorage.setItem('token', createUserRes.user.refreshToken);
 					localStorage.setItem('userId', createUserRes.user.uid);
+					localStorage.setItem('name', userData.name);
 					dispatch(
 						authSuccess(createUserRes.user.refreshToken, createUserRes.user.uid, userData.name)
 					);
@@ -65,8 +68,6 @@ export const auth = (userData, isSignUp, firebase) => {
 					dispatch(authFail(err));
 				});
 		}
-
-		//refactor? (a method with custom name in Firebase constructor?)
 		else {
 			let signIn = firebase.signInUser(userData.email, userData.password);
 			let getData = signIn.then((res) =>
@@ -88,6 +89,7 @@ export const auth = (userData, isSignUp, firebase) => {
 					);
 					localStorage.setItem('token', signInRes.user.refreshToken);
 					localStorage.setItem('userId', signInRes.user.uid);
+					localStorage.setItem('name', getNameRes);
 					dispatch(
 						authSuccess(signInRes.user.refreshToken, signInRes.user.uid, getNameRes)
 					);
@@ -112,7 +114,9 @@ export const authCheckState = () => {
 			dispatch(logout());
 		} else {
 			const userId = localStorage.getItem('userId');
-			dispatch(authSuccess(token, userId));
+			const name = localStorage.getItem('name')
+			console.log('got name', name)
+			dispatch(authSuccess(token, userId, name));
 		}
 	};
 };

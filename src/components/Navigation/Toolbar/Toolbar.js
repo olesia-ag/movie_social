@@ -5,6 +5,8 @@ import DrawerToggle from './SideDrawer/DrawerToggle/DrawerToggler';
 import { pure } from 'recompose';
 
 const Toolbar = (props) => {
+
+
 	return (
 		<header className={classes.Toolbar}>
 			<DrawerToggle
@@ -13,7 +15,7 @@ const Toolbar = (props) => {
 				opened={props.sideDrawerOpen}
 			/>
 			<nav className={classes.DesktopOnly}>
-				<NavigationItems isAuthenticated = {props.isAuth} />
+				<NavigationItems isAuthenticated={props.isAuth} name={props.name} />
 			</nav>
 		</header>
 	);

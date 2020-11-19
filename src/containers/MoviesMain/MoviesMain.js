@@ -52,6 +52,7 @@ const MoviesMain = (props) => {
 						add={props.addFavorite}
 						foundMovie={movieToFind}
 						isFavorite={checkIfFavorite}
+						userId={props.userId}
 					/>
 				</div>
 			</div>
@@ -66,12 +67,13 @@ const mapStateToProps = (state) => {
 		foundMovies: state.movies.foundMovies,
 		favoriteMovies: state.favoriteMovies.favoriteMovies,
 		limitReached: state.favoriteMovies.limitReached,
+		userId: state.auth.userId
 	};
 };
 const mapDispatchToProps = (dispatch) => {
 	return {
 		findMovies: (movieTitle) => dispatch(actions.searchMovies(movieTitle)),
-		addFavorite: (movie, db) => dispatch(actions.addFavorite(movie, db)),
+		addFavorite: (movie, userId, firebase) => dispatch(actions.addFavorite(movie, userId, firebase)),
 		removeFavorite: (movieId) => dispatch(actions.removeFavorite(movieId))
 	};
 };
