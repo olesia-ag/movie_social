@@ -8,12 +8,9 @@ export const findFriends = (name, firebase) => {
 			.where('name', '<=', name + '\uf8ff')
 			.get()
 			.then((res) => {
-				let friendObj = {};
 				let foundFriends = [];
 				res.forEach((doc) => {
-					friendObj['id'] = doc.id;
-					friendObj['data'] = doc.data();
-					foundFriends.push(friendObj);
+					foundFriends.push({ id: doc.id, ...doc.data() });
 				});
 				return foundFriends;
 			})

@@ -7,16 +7,18 @@ import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
 import Dashboard from './containers/Dashboard/Dashboard';
 import FriendsMain from './containers/FriendsMain/FriendsMain';
+import { withFirebase } from './firebase/context';
 import { connect } from 'react-redux';
 import * as actions from './store/actions/index';
 
 const App = (props) => {
-	const { onTryAutoSignIn, auth, fetchFavorites } = props;
+	const { onTryAutoSignIn, auth, fetchFavorites, firebase, userId } = props;
+
 	useEffect(() => onTryAutoSignIn(), [onTryAutoSignIn]);
 
 	useEffect(() => {
-		fetchFavorites(auth);
-	}, [auth, fetchFavorites]);
+		fetchFavorites(userId, firebase);
+	}, [userId]);
 
 	// let routes = (
 	// 	<Switch>
@@ -27,16 +29,16 @@ const App = (props) => {
 	// );
 
 	// if (props.auth) {
-		let routes = (
-			<Switch>
-				<Route path='/' exact render={(props) => <Dashboard {...props} />} />
-				<Route path='/searchmovies' exact component={MoviesMain} />
-				<Route path='/friends' exact component={FriendsMain} />
-				<Route path='/logout' component={Logout} />
-				<Route path='/auth' render={(props) => <Auth />} />
-				<Redirect to='/' />
-			</Switch>
-		);
+	let routes = (
+		<Switch>
+			<Route path='/' exact render={(props) => <Dashboard {...props} />} />
+			<Route path='/searchmovies' exact component={MoviesMain} />
+			<Route path='/friends' exact component={FriendsMain} />
+			<Route path='/logout' component={Logout} />
+			<Route path='/auth' render={(props) => <Auth />} />
+			<Redirect to='/' />
+		</Switch>
+	);
 	// }
 
 	return (
@@ -49,13 +51,15 @@ const App = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		auth: !!state.auth.idToken,
+		userId: state.auth.userId
 	};
 };
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onTryAutoSignIn: () => dispatch(actions.authCheckState()),
-		fetchFavorites: (auth) => dispatch(actions.fetchFavorites()),
+		fetchFavorites: (userId, firebase) =>
+			dispatch(actions.fetchFavorites(userId, firebase)),
 	};
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter((connect(mapStateToProps, mapDispatchToProps))(withFirebase(App)));

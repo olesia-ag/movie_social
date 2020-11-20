@@ -1,5 +1,4 @@
 import * as actionTypes from './actionTypes';
-import axios from 'axios';
 
 export const fetchFavoriteMoviesStart = () => {
 	return {
@@ -7,15 +6,34 @@ export const fetchFavoriteMoviesStart = () => {
 	};
 };
 
-export const fetchFavorites = (auth) => {
-	if (!auth) {
-		return (dispatch) => {
-			const moviesArr = JSON.parse(localStorage.getItem('Movies'));
-			if (moviesArr) {
-				dispatch(fetchFavoriteMoviesSuccess(moviesArr));
-			}
-		};
-	}
+export const fetchFavorites = (userId, firebase) => {
+	return (dispatch) => {
+		if (userId) {
+			firebase.db
+				.collection('users')
+				.doc(userId)
+				.collection('favoriteMovies')
+				.get()
+				.then((res) => {
+					let foundMovies = [];
+					res.forEach((doc) => {
+						foundMovies.push({ id: doc.id, ...doc.data() });
+					});
+					return foundMovies;
+				})
+				.then((arr) => dispatch(fetchFavoriteMoviesSuccess(arr)))
+				.catch(function (error) {
+					fetchFavoriteMoviesFailed(error);
+				});
+		} else {
+			return (dispatch) => {
+				const moviesArr = JSON.parse(localStorage.getItem('Movies'));
+				if (moviesArr) {
+					dispatch(fetchFavoriteMoviesSuccess(moviesArr));
+				}
+			};
+		}
+	};
 };
 
 export const fetchFavoriteMoviesSuccess = (favoriteMovies) => {
@@ -67,22 +85,31 @@ export const addFavoriteFailed = (error) => {
 	};
 };
 
-//should remove rom db
-export const removeFavorite = (movieId) => {
+export const removeFavorite = (movieId, userId, firebase) => {
 	return (dispatch) => {
-		const favoriteMovies = JSON.parse(localStorage.getItem('Movies'));
-		const newFavoriteMovies = favoriteMovies.filter(
-			(movie) => movie.imdbID !== movieId
-		);
-		localStorage.setItem('Movies', JSON.stringify(newFavoriteMovies));
-		dispatch(removeFavoriteSuccess(movieId));
+		if (userId) {
+			firebase.db
+				.collection('users')
+				.doc(userId)
+				.collection('favoriteMovies')
+				.doc(movieId)
+				.delete()
+				.then(() => dispatch(removeFavoriteSuccess()))
+				.catch((err) => dispatch(addFavoriteFailed(err)));
+		} else {
+			const favoriteMovies = JSON.parse(localStorage.getItem('Movies'));
+			const newFavoriteMovies = favoriteMovies.filter(
+				(movie) => movie.imdbID !== movieId
+			);
+			localStorage.setItem('Movies', JSON.stringify(newFavoriteMovies));
+			dispatch(removeFavoriteSuccess(movieId));
+		}
 	};
 };
 
-export const removeFavoriteSuccess = (movieId) => {
+export const removeFavoriteSuccess = () => {
 	return {
 		type: actionTypes.REMOVE_FAVORITE_MOVIE_SUCCESS,
-		movieId,
 	};
 };
 

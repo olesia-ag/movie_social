@@ -28,7 +28,7 @@ const DisplayMovies = ({
 									title={movie.Title}
 									released={movie.Year}
 									poster={movie.Poster}
-									remove={() => remove(movie.imdbID)}
+									remove={() => remove(movie.imdbID, userId, rest.firebase)}
 									isFavorite
 								/>
 							</li>

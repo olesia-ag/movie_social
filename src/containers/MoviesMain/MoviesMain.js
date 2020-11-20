@@ -42,6 +42,7 @@ const MoviesMain = (props) => {
 						favorite
 						movies={props.favoriteMovies}
 						remove={props.removeFavorite}
+						userId={props.userId}
 					/>
 				</div>
 				<div className={classes.FoundMovies}>
@@ -74,7 +75,8 @@ const mapDispatchToProps = (dispatch) => {
 		findMovies: (movieTitle) => dispatch(actions.searchMovies(movieTitle)),
 		addFavorite: (movie, userId, firebase) =>
 			dispatch(actions.addFavorite(movie, userId, firebase)),
-		removeFavorite: (movieId) => dispatch(actions.removeFavorite(movieId)),
+		removeFavorite: (movieId, userId, firebase) =>
+			dispatch(actions.removeFavorite(movieId, userId, firebase)),
 	};
 };
 
