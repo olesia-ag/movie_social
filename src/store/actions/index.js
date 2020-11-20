@@ -4,7 +4,12 @@ export {
 	setAuthRedirect,
 	authCheckState,
 	authClear,
-	getUser
+	getUser,
 } from './authActions';
-export { searchMovies} from './moviesActions';
-export {addFavorite, removeFavorite, fetchFavorites } from './favoriteMoviesActions'
+export { searchMovies } from './moviesActions';
+export {
+	addFavorite,
+	removeFavorite,
+	fetchFavorites,
+} from './favoriteMoviesActions';
+export { findFriends } from './userActions';

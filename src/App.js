@@ -6,6 +6,7 @@ import MoviesMain from './containers/MoviesMain/MoviesMain';
 import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
 import Dashboard from './containers/Dashboard/Dashboard';
+import FriendsMain from './containers/FriendsMain/FriendsMain';
 import { connect } from 'react-redux';
 import * as actions from './store/actions/index';
 
@@ -17,25 +18,26 @@ const App = (props) => {
 		fetchFavorites(auth);
 	}, [auth, fetchFavorites]);
 
-	let routes = (
-		<Switch>
-			<Route path='/' exact component={MoviesMain} />
-			<Route path='/auth' render={(props) => <Auth />} />
-			<Redirect to='/' />
-		</Switch>
-	);
+	// let routes = (
+	// 	<Switch>
+	// 		<Route path='/' exact component={MoviesMain} />
+	// 		<Route path='/auth' render={(props) => <Auth />} />
+	// 		<Redirect to='/' />
+	// 	</Switch>
+	// );
 
-	if (props.auth) {
-		routes = (
+	// if (props.auth) {
+		let routes = (
 			<Switch>
 				<Route path='/' exact render={(props) => <Dashboard {...props} />} />
 				<Route path='/searchmovies' exact component={MoviesMain} />
+				<Route path='/friends' exact component={FriendsMain} />
 				<Route path='/logout' component={Logout} />
 				<Route path='/auth' render={(props) => <Auth />} />
 				<Redirect to='/' />
 			</Switch>
 		);
-	}
+	// }
 
 	return (
 		<div className={classes.App}>

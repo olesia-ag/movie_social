@@ -42,13 +42,13 @@ export const addFavorite = (movie, userId, firebase) => {
 				.collection('favoriteMovies')
 				.doc(movie.imdbID)
 				.set(movie)
-				.then((res) => console.log('res', res))
-				.catch((err) => dispatch(addFavoriteFailed));
+				.then(() => dispatch(addFavoriteSuccess(movie)))
+				.catch((err) => dispatch(addFavoriteFailed(err)));
 		} else {
 			const favoriteMovies = JSON.parse(localStorage.getItem('Movies'));
 			const newFavoriteMovies = favoriteMovies.concat(movie);
 			localStorage.setItem('Movies', JSON.stringify(newFavoriteMovies));
-			dispatch(addFavoriteSuccess());
+			dispatch(addFavoriteSuccess(movie));
 		}
 	};
 };

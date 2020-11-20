@@ -79,14 +79,6 @@ export const auth = (userData, isSignUp, firebase) => {
 			});
 			return Promise.all([signIn, getData, getName])
 				.then(function ([signInRes, getDataRes, getNameRes]) {
-					console.log(
-						'signInRes',
-						signInRes,
-						'getData',
-						getDataRes,
-						'getNameRes',
-						getNameRes
-					);
 					localStorage.setItem('token', signInRes.user.refreshToken);
 					localStorage.setItem('userId', signInRes.user.uid);
 					localStorage.setItem('name', getNameRes);
