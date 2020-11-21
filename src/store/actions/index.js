@@ -11,5 +11,6 @@ export {
 	addFavorite,
 	removeFavorite,
 	fetchFavorites,
+	watchFavorites
 } from './favoriteMoviesActions';
 export { findFriends } from './userActions';

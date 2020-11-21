@@ -25,6 +25,11 @@ const MoviesMain = (props) => {
 			return false;
 		}
 	};
+	useEffect(() => {
+		if (props.userId) {
+			props.watchFavorites(props.userId, props.firebase);
+		}
+	}, [props.userId]);
 
 	return (
 		<div className={classes.MoviesMainContainer}>
@@ -77,6 +82,8 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(actions.addFavorite(movie, userId, firebase)),
 		removeFavorite: (movieId, userId, firebase) =>
 			dispatch(actions.removeFavorite(movieId, userId, firebase)),
+		watchFavorites: (userId, firebase) =>
+			dispatch(actions.watchFavorites(userId, firebase)),
 	};
 };
 

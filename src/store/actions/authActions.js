@@ -107,7 +107,7 @@ export const authCheckState = () => {
 		} else {
 			const userId = localStorage.getItem('userId');
 			const name = localStorage.getItem('name')
-			console.log('got name', name)
+			// console.log('got name', name)
 			dispatch(authSuccess(token, userId, name));
 		}
 	};

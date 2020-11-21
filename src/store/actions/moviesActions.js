@@ -13,7 +13,6 @@ export const searchMovies = (movieTitle) => {
 	return (dispatch) => {
 		dispatch(searchMoviesStart());
 		const query = `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&type="movie"&s="${movieTitle}"&`;
-		console.log('query', query);
 		axios
 			.get(query, {
 				timeout: 6000,

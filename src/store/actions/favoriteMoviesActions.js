@@ -36,6 +36,32 @@ export const fetchFavorites = (userId, firebase) => {
 	};
 };
 
+export const watchFavorites = (userId, firebase) => {
+	return (dispatch) => {
+		if (userId) {
+			firebase.db
+				.collection('users')
+				.doc(userId)
+				.collection('favoriteMovies')
+				.onSnapshot(async (querySnapshot) => {
+					console.log('firebase watching...')
+					var favMovies = [];
+					await querySnapshot.forEach(function (doc) {
+						favMovies.push(doc.data());
+					});
+					dispatch(fetchFavoriteMoviesSuccess(favMovies));
+				});
+		} else {
+			return (dispatch) => {
+				const moviesArr = JSON.parse(localStorage.getItem('Movies'));
+				if (moviesArr) {
+					dispatch(fetchFavoriteMoviesSuccess(moviesArr));
+				}
+			};
+		}
+	};
+};
+
 export const fetchFavoriteMoviesSuccess = (favoriteMovies) => {
 	return {
 		type: actionTypes.FETCH_FAVORITE_MOVIES_SUCCESS,
@@ -60,7 +86,7 @@ export const addFavorite = (movie, userId, firebase) => {
 				.collection('favoriteMovies')
 				.doc(movie.imdbID)
 				.set(movie)
-				.then(() => dispatch(addFavoriteSuccess(movie)))
+				.then(() => {})
 				.catch((err) => dispatch(addFavoriteFailed(err)));
 		} else {
 			const favoriteMovies = JSON.parse(localStorage.getItem('Movies'));
