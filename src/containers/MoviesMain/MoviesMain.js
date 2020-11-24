@@ -31,6 +31,10 @@ const MoviesMain = (props) => {
 		}
 	}, [props.userId]);
 
+	useEffect(() => {
+		props.fetchFavorites(props.userId, props.firebase);
+	}, []);
+
 	return (
 		<div className={classes.MoviesMainContainer}>
 			<div className={classes.FindContainer}>
@@ -84,6 +88,8 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(actions.removeFavorite(movieId, userId, firebase)),
 		watchFavorites: (userId, firebase) =>
 			dispatch(actions.watchFavorites(userId, firebase)),
+		fetchFavorites: (userId, firebase) =>
+			dispatch(actions.fetchFavorites(userId, firebase)),
 	};
 };
 

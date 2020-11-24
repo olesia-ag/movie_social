@@ -26,12 +26,10 @@ export const fetchFavorites = (userId, firebase) => {
 					fetchFavoriteMoviesFailed(error);
 				});
 		} else {
-			return (dispatch) => {
-				const moviesArr = JSON.parse(localStorage.getItem('Movies'));
-				if (moviesArr) {
-					dispatch(fetchFavoriteMoviesSuccess(moviesArr));
-				}
-			};
+			const moviesArr = JSON.parse(localStorage.getItem('favoriteMovies'));
+			if (moviesArr) {
+				dispatch(fetchFavoriteMoviesSuccess(moviesArr));
+			}
 		}
 	};
 };
@@ -44,7 +42,7 @@ export const watchFavorites = (userId, firebase) => {
 				.doc(userId)
 				.collection('favoriteMovies')
 				.onSnapshot(async (querySnapshot) => {
-					console.log('firebase watching...')
+					console.log('firebase watching...');
 					var favMovies = [];
 					await querySnapshot.forEach(function (doc) {
 						favMovies.push(doc.data());
@@ -89,9 +87,16 @@ export const addFavorite = (movie, userId, firebase) => {
 				.then(() => {})
 				.catch((err) => dispatch(addFavoriteFailed(err)));
 		} else {
-			const favoriteMovies = JSON.parse(localStorage.getItem('Movies'));
-			const newFavoriteMovies = favoriteMovies.concat(movie);
-			localStorage.setItem('Movies', JSON.stringify(newFavoriteMovies));
+			let favoriteMovies = [];
+			let favoriteMoviesStorage = JSON.parse(
+				localStorage.getItem('favoriteMovies')
+			);
+			if (!favoriteMoviesStorage) {
+				favoriteMovies.push(movie);
+			} else {
+				favoriteMovies = favoriteMoviesStorage.concat(movie);
+			}
+			localStorage.setItem('favoriteMovies', JSON.stringify(favoriteMovies));
 			dispatch(addFavoriteSuccess(movie));
 		}
 	};
@@ -120,22 +125,23 @@ export const removeFavorite = (movieId, userId, firebase) => {
 				.collection('favoriteMovies')
 				.doc(movieId)
 				.delete()
-				.then(() => dispatch(removeFavoriteSuccess()))
+				.then(() => dispatch(removeFavoriteSuccess(movieId)))
 				.catch((err) => dispatch(addFavoriteFailed(err)));
 		} else {
-			const favoriteMovies = JSON.parse(localStorage.getItem('Movies'));
+			const favoriteMovies = JSON.parse(localStorage.getItem('favoriteMovies'));
 			const newFavoriteMovies = favoriteMovies.filter(
 				(movie) => movie.imdbID !== movieId
 			);
-			localStorage.setItem('Movies', JSON.stringify(newFavoriteMovies));
+			localStorage.setItem('favoriteMovies', JSON.stringify(newFavoriteMovies));
 			dispatch(removeFavoriteSuccess(movieId));
 		}
 	};
 };
 
-export const removeFavoriteSuccess = () => {
+export const removeFavoriteSuccess = (movieId) => {
 	return {
 		type: actionTypes.REMOVE_FAVORITE_MOVIE_SUCCESS,
+		movieId
 	};
 };
 

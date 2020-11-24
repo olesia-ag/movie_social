@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import classes from './App.module.css';
-import { Switch, Redirect, Route, withRouter } from 'react-router-dom';
+import { Switch, Redirect, Route } from 'react-router-dom';
 import PrivateRoute from './containers/hoc/PrivateRoute';
 import Layout from './containers/hoc/Layout/Layout';
 import MoviesMain from './containers/MoviesMain/MoviesMain';
@@ -8,9 +8,7 @@ import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
 import Dashboard from './containers/Dashboard/Dashboard';
 import FriendsMain from './containers/FriendsMain/FriendsMain';
-import { withFirebase } from './firebase/context';
-import { connect } from 'react-redux';
-import * as actions from './store/actions/index';
+
 
 const App = () => {
 
@@ -19,7 +17,7 @@ const App = () => {
 			<PrivateRoute path='/searchmovies' component={MoviesMain} />
 			<PrivateRoute path='/friends' component={FriendsMain} />
 			<PrivateRoute path='/logout' component={Logout} />
-			<PrivateRoute path='/auth' component={Auth} />
+			<PrivateRoute path='/dashboard' component={Dashboard} />
 			<Route path='/auth' component={Auth} />
 			<Route path='/' exact component={MoviesMain} />
 			<Redirect to='/' />

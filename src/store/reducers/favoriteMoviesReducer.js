@@ -22,7 +22,8 @@ const addFavorite = (state, action) => {
 const removeFavorite = (state, action) => {
 	const newFavoriteMovies = state.favoriteMovies.filter(
 		(movie) => movie.imdbID !== action.movieId
-  );
+	);
+
 	return updateObject(state, { favoriteMovies: newFavoriteMovies, limitReached: false });
 };
 
