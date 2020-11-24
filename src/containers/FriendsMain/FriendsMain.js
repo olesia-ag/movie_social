@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { withFirebase } from '../../firebase/context';
 import classes from './FriendsMain.module.css';
 import FindFriends from '../../components/FindFriends/FindFriends';
+import DisplayFriends from '../../components/DisplayFriends/DisplayFriends';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 
@@ -16,7 +17,7 @@ const FriendsMain = (props) => {
 		event.preventDefault();
 		setNameToFind(event.target.value);
 	};
-
+console.log('friend')
 	return (
 		<div>
 			<FindFriends
@@ -25,11 +26,7 @@ const FriendsMain = (props) => {
 				inputChangedHandler={inputChangedHandler}
 				nameToFind={nameToFind}
 			/>
-			{props.foundFriends.length
-				? props.foundFriends.map((friend) => (
-						<p key={friend.id}>{friend.data.name}</p>
-				  ))
-				: null}
+			<DisplayFriends error={props.error} loading={props.loading} friends={props.foundFriends} searchedFriend={nameToFind} />
 		</div>
 	);
 };
@@ -37,6 +34,8 @@ const FriendsMain = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		foundFriends: state.user.foundFriends,
+		error: state.user.error,
+		loading: state.user.loading
 	};
 };
 const mapDispatchToProps = (dispatch) => {

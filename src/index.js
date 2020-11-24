@@ -1,4 +1,4 @@
-// import './wdyr';
+import './wdyr';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
@@ -11,6 +11,9 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './store/reducers'
 import * as serviceWorker from './serviceWorker';
 import Firebase, { FirebaseContext } from './firebase';
+import * as actions from './store/actions/index';
+
+
 
 // const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose
 const composeEnhancers = composeWithDevTools({ trace: true, traceLimit: 25 });
@@ -20,10 +23,15 @@ const store = createStore(
 	composeEnhancers(applyMiddleware(thunk))
 );
 
+const token = localStorage.getItem('token');
+if (token) {
+  store.dispatch(actions.authCheckState());
+}
+
 const app = (
 	<FirebaseContext.Provider value={new Firebase()}>
 		<Provider store={store}>
-			<BrowserRouter>
+			<BrowserRouter basename="/">
 				<Suspense fallback={<div>Loading...</div>}>
 					<App />
 				</Suspense>
