@@ -6,7 +6,7 @@
 	height: 3.5rem;
 	top: 0;
 	background-color: var(--background-dark-color);
-	color: var(--text-light-color);
+	color: var(--text-contrast-color);
 	display: flex;
 	justify-content: space-between;
 	align-items: center;

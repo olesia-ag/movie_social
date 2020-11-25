@@ -2,12 +2,11 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	border: 1px solid green;
+
 }
 
 .AuthForm {
-	border: solid lightgrey 1px;
-	width: 400px;
+	width: 90%;
 	padding: 20px;
 	display: flex;
 	flex-direction: column;
@@ -25,7 +24,7 @@
 	cursor: pointer;
 }
 
-.AuthLabel{
+.AuthLabel {
 	font-weight: 700;
 	font-size: small;
 	align-self: flex-start;
@@ -34,9 +33,21 @@
 
 .AuthInput {
 	width: 100%;
-	border-bottom: 1px solid black;
-	max-height: 2rem;
+	height: 3rem;
+	background-color: transparent;
+	border: 2px solid var(--main-light-color);
+	padding: .4rem;
+	font-weight: 500;
+	border-radius: .5rem;
+	margin-top: .5rem;
+	transition: border-color 0.3s ease-in-out;
 }
+
+.AuthInput:focus {
+	border-color: var(--text-color);
+	outline-style: none;
+}
+
 .AuthError {
 	display: flex;
 	flex-direction: row;
@@ -44,20 +55,13 @@
 	margin: 0.5rem 0;
 }
 
-a {
-	color: #4c54bd;
-}
-a:hover {
-	color: #797fcd;
-}
-
-h3{
-  margin: none;
-  padding: none;
+h3 {
+	margin: none;
+	padding: none;
 }
 /* desktop */
-/* @media (min-width: 769px) {
-	input {
-		width: 80vw;
+@media (min-width: 769px) {
+	.AuthForm {
+		max-width: 500px;
 	}
-} */
+}

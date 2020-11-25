@@ -9,12 +9,13 @@ button.Button {
 	cursor: pointer;
 	font-weight: bold;
 	font: inherit;
-	padding: .5rem 1rem;
-	margin: .5rem;
-	/* width: 5rem; */
-	border-radius: 0.9em;
-	border: solid pink;
+	padding: .3rem 1rem;
+	margin: .3rem;
+	border-radius: 0.5em;
+	border: solid var(--main-color);
 	outline-style: none;
+	transition: border-color .2s ease-out;
+	transition: color .2s ease-out;
 }
 
 button.Button:hover:not([disabled]){
@@ -29,8 +30,8 @@ button.Button:hover:not([disabled]){
 }
 
 .Button:disabled {
-	color: var(--primary-color);
-	border-color: var(--primary-color);
+	color: var(--main-light-color);
+	border-color: var(--main-light-color);
 	cursor: not-allowed;
 }
 

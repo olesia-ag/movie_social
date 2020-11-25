@@ -17,7 +17,7 @@ const App = () => {
 			<PrivateRoute path='/searchmovies' component={MoviesMain} />
 			<PrivateRoute path='/friends' component={FriendsMain} />
 			<PrivateRoute path='/logout' component={Logout} />
-			<PrivateRoute path='/dashboard' component={Dashboard} />
+			<PrivateRoute path='/main' component={Dashboard} />
 			<Route path='/auth' component={Auth} />
 			<Route path='/' exact component={MoviesMain} />
 			<Redirect to='/' />

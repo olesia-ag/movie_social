@@ -10,7 +10,7 @@ const NavigationItems = (props) => {
 				{props.isAuthenticated ? (
 					<>
 						<span>Welcome back, {props.name} </span>
-						<NavigationItem link='/'>Dashboard</NavigationItem>
+						<NavigationItem link='/main'>Dashboard</NavigationItem>
 						<NavigationItem link='/searchmovies'>Search Movies</NavigationItem>
 						<NavigationItem link='/logout'>Logout</NavigationItem>
 					</>

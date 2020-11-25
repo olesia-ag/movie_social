@@ -4,9 +4,6 @@ import Toolbar from '../../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../../components/Navigation/Toolbar/SideDrawer/SideDrawer';
 import Footer from '../../../components/Navigation/Footer/Footer';
 import Modal from '../../../components/UI/Modal/Modal';
-
-
-import * as actions from '../../../store/actions';
 import { connect } from 'react-redux';
 
 const Layout = (props) => {

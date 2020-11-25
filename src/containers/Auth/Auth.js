@@ -3,6 +3,7 @@ import { checkValidity, checkMatch } from '../../shared/utility';
 import * as actions from '../../store/actions';
 import { connect } from 'react-redux';
 import classes from './Auth.module.css';
+import Button from '../../components/UI/Button/Button';
 import { withFirebase } from '../../firebase/context';
 import { Redirect } from 'react-router-dom';
 
@@ -18,6 +19,7 @@ const Auth = (props) => {
 		valid: false,
 		touched: false,
 	});
+
 	const [email, setEmail] = useState({
 		placeholder: 'your email',
 		value: '',
@@ -28,6 +30,7 @@ const Auth = (props) => {
 		valid: false,
 		touched: false,
 	});
+
 	const [password, setPassword] = useState({
 		value: '',
 		placeholder: 'password',
@@ -48,6 +51,7 @@ const Auth = (props) => {
 		valid: true,
 		touched: false,
 	});
+
 	const [formInvalid, setFormInvalid] = useState(false);
 	const [errorMessages, setErrorMessages] = useState({
 		nameError: '',
@@ -263,9 +267,7 @@ const Auth = (props) => {
 					value={repeatPassword.value}
 					onChange={(e) => inputChangedHandler(e)}
 				/>
-				<button className={classes.AuthButton} type='submit'>
-					Submit
-				</button>
+				<Button>Submit</Button>
 			</form>
 		</div>
 	);
@@ -303,9 +305,7 @@ const Auth = (props) => {
 						value={password.value}
 						onChange={(e) => inputChangedHandler(e)}
 					/>
-					<button className={classes.AuthButton} type='submit'>
-						Submit
-					</button>
+					<Button>Submit</Button>
 				</form>
 			</div>
 		);

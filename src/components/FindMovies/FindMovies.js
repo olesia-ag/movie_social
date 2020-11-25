@@ -14,7 +14,7 @@ const FindMovies = ({
 			className={classes.FindMoviesInput}
 				onChange={(e) => inputChangedHandler(e)}
 				label='title'
-				placeholder='Harry Potter'
+				placeholder='movie title: Harry Potter'
 			/>
 
 			<Button

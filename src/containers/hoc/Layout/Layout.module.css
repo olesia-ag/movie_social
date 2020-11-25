@@ -11,3 +11,6 @@
 	background-size: cover;
 }
 
+.Content{
+	background-color: var(--background-light-color);
+}

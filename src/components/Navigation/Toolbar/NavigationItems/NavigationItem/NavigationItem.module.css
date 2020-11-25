@@ -5,7 +5,7 @@
 	width: 100%;
 	font-family: inherit;
 	white-space: nowrap;
-	color: var(--text-light-color);
+	color: var(--text-contrast-color);
 }
 
 .NavigationItem a,
@@ -38,8 +38,4 @@
 		opacity: 0.6;
 	}
 
-	a.NavigationListWhite,
-	span.NavigationListWhite {
-		color: var(--text-light-color);
-	}
 }

@@ -89,7 +89,7 @@ const mapDispatchToProps = (dispatch) => {
 		watchFavorites: (userId, firebase) =>
 			dispatch(actions.watchFavorites(userId, firebase)),
 		fetchFavorites: (userId, firebase) =>
-			dispatch(actions.fetchFavorites(userId, firebase)),
+			dispatch(actions.fetchFavorites(userId, firebase))
 	};
 };
 

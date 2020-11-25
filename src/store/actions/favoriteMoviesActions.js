@@ -60,6 +60,7 @@ export const watchFavorites = (userId, firebase) => {
 	};
 };
 
+
 export const fetchFavoriteMoviesSuccess = (favoriteMovies) => {
 	return {
 		type: actionTypes.FETCH_FAVORITE_MOVIES_SUCCESS,
@@ -141,7 +142,7 @@ export const removeFavorite = (movieId, userId, firebase) => {
 export const removeFavoriteSuccess = (movieId) => {
 	return {
 		type: actionTypes.REMOVE_FAVORITE_MOVIE_SUCCESS,
-		movieId
+		movieId,
 	};
 };
 

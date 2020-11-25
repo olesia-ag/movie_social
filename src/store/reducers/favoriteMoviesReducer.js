@@ -8,15 +8,16 @@ const initialState = {
 	limitReached: false,
 };
 
-
-
 const addFavorite = (state, action) => {
-  const newFavoriteMovies = state.favoriteMovies.concat(action.movie);
-  let limit = false
-  if(state.favoriteMovies.length === 4){
-    limit = true
-  }
-	return updateObject(state, { favoriteMovies: newFavoriteMovies, limitReached: limit });
+	const newFavoriteMovies = state.favoriteMovies.concat(action.movie);
+	let limit = false;
+	if (state.favoriteMovies.length === 4) {
+		limit = true;
+	}
+	return updateObject(state, {
+		favoriteMovies: newFavoriteMovies,
+		limitReached: limit,
+	});
 };
 
 const removeFavorite = (state, action) => {
@@ -24,12 +25,19 @@ const removeFavorite = (state, action) => {
 		(movie) => movie.imdbID !== action.movieId
 	);
 
-	return updateObject(state, { favoriteMovies: newFavoriteMovies, limitReached: false });
+	return updateObject(state, {
+		favoriteMovies: newFavoriteMovies,
+		limitReached: false,
+	});
 };
 
 const fetchFavoritesSuccess = (state, action) => {
-  return updateObject(state, { favoriteMovies: action.favoriteMovies});
-}
+	return updateObject(state, { favoriteMovies: action.favoriteMovies });
+};
+
+const clearFavorites = (state, action) => {
+	return updateObject(state, { favoriteMovies: [] });
+};
 
 const favoriteMoviesReducer = (state = initialState, action) => {
 	switch (action.type) {
@@ -37,10 +45,13 @@ const favoriteMoviesReducer = (state = initialState, action) => {
 			return addFavorite(state, action);
 
 		case actionTypes.REMOVE_FAVORITE_MOVIE_SUCCESS:
-      return removeFavorite(state, action);
+			return removeFavorite(state, action);
 
-    case actionTypes.FETCH_FAVORITE_MOVIES_SUCCESS:
-      return fetchFavoritesSuccess(state, action);
+		case actionTypes.FETCH_FAVORITE_MOVIES_SUCCESS:
+			return fetchFavoritesSuccess(state, action);
+
+		case actionTypes.AUTH_LOGOUT:
+			return clearFavorites(state, action);
 
 		default:
 			return state;

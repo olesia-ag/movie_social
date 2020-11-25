@@ -35,13 +35,6 @@
 	.FindContainer {
 		width: 90%;
 		border-radius: 0.5rem;
-		transition: box-shadow 0.5s ease-in-out;
-	}
-
-	.FindContainer:hover {
-		-webkit-box-shadow: 6px 6px 18px 0px rgba(176, 21, 176, 1);
-		-moz-box-shadow: 6px 6px 18px 0px rgba(176, 21, 176, 1);
-		box-shadow: 6px 6px 18px 0px rgba(176, 21, 176, 1);
 	}
 
 	.MoviesContainer {

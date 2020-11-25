@@ -5,6 +5,6 @@
 	z-index: 100;
 	left: 0;
 	top: 0;
-	background-color: var(--primary-light-color);
+	background-color: var(--main-light-color);
 	opacity: 55%;
 }

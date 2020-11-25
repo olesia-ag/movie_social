@@ -42,8 +42,9 @@ export const getUser = (firebase) => {
 	};
 };
 
-export const auth = (userData, isSignUp, firebase) => {
+//if user is signing up or singnig in, favorite movies from localStorage will be added to db and erased from localStorage
 
+export const auth = (userData, isSignUp, firebase) => {
 		//refactor? (a method with custom name in Firebase constructor?)
 	return (dispatch) => {
 		dispatch(authStart());
@@ -56,7 +57,16 @@ export const auth = (userData, isSignUp, firebase) => {
 					.set({ name: userData.name })
 			);
 			return Promise.all([createUser, addData])
-				.then(function ([createUserRes]) {
+				.then(async function ([createUserRes]) {
+					//add movies from local storage to database and remove them from localStorage:
+					const favoriteMovies = JSON.parse(localStorage.getItem('favoriteMovies'));
+					await favoriteMovies.forEach(movie => firebase.db
+						.collection('users')
+						.doc(createUserRes.user.uid)
+						.collection('favoriteMovies')
+						.doc(movie.imdbID)
+						.set(movie)
+						.then(() => localStorage.removeItem('favoriteMovies')))
 					localStorage.setItem('token', createUserRes.user.refreshToken);
 					localStorage.setItem('userId', createUserRes.user.uid);
 					localStorage.setItem('name', userData.name);
@@ -79,6 +89,8 @@ export const auth = (userData, isSignUp, firebase) => {
 			});
 			return Promise.all([signIn, getData, getName])
 				.then(function ([signInRes, getDataRes, getNameRes]) {
+					//if loging in existing user, localStorage favorite movies will be erased
+					localStorage.removeItem('favoriteMovies')
 					localStorage.setItem('token', signInRes.user.refreshToken);
 					localStorage.setItem('userId', signInRes.user.uid);
 					localStorage.setItem('name', getNameRes);

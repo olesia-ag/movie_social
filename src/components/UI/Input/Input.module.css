@@ -13,14 +13,12 @@
 
 .InputElement {
 	outline: none;
-
 	font: inherit;
 	padding: 0.3em;
 	border-top: none;
 	border-left: none;
 	border-right: none;
 	margin: 0 auto;
-
 	width: 95%;
 	box-sizing: border-box;
 	display: block;
@@ -43,45 +41,7 @@
 	padding: 0.8em;
 }
 
-.TextArea::-webkit-input-placeholder {
-	text-align: center;
-	color: var(--primary-dark-color);
-}
-
-.TextArea:-ms-input-placeholder {
-	text-align: center;
-	color: var(--primary-dark-color);
-}
-
-.TextArea::-ms-input-placeholder {
-	text-align: center;
-	color: var(--primary-dark-color);
-}
-
-.TextArea::placeholder {
-	text-align: center;
-	color: var(--primary-dark-color);
-}
-.InputElement::-webkit-input-placeholder {
-	text-align: center;
-	color: var(--primary-dark-color);
-}
-.InputElement:-ms-input-placeholder {
-	text-align: center;
-	color: var(--primary-dark-color);
-}
-.InputElement::-ms-input-placeholder {
-	text-align: center;
-	color: var(--primary-dark-color);
-}
-.InputElement::placeholder {
-	text-align: center;
-	color: var(--primary-dark-color);
-}
-
-/* tablet layout */
 /*desktop layout */
-
 /* 769 and more */
 @media (min-width: 769px) {
 	.Input {
