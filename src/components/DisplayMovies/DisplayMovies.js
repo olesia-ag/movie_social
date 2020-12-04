@@ -2,6 +2,7 @@ import React from 'react';
 import classes from './DisplayMovies.module.css';
 import { SingleMovie } from '../SingleMovie';
 import { withFirebase } from '../../firebase/context';
+import ReactPaginate from 'react-paginate';
 
 const DisplayMovies = ({
 	userId,
@@ -13,6 +14,7 @@ const DisplayMovies = ({
 	add,
 	remove,
 	isFavorite,
+	totalResults,
 	...rest
 }) => {
 	let displayMovies;
@@ -42,7 +44,7 @@ const DisplayMovies = ({
 		if (movies.length) {
 			displayMovies = (
 				<>
-					<h5>Found for '{foundMovie}':</h5>
+					<h5>Found {totalResults} results for '{foundMovie}':</h5>
 					<ul className={classes.DisplayMoviesList}>
 						{movies.map((movie) => (
 							<li key={movie.imdbID}>

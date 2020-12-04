@@ -5,6 +5,7 @@ const initialState = {
 	foundMovies: [],
 	error: null,
 	loading: false,
+	totalResults: null
 };
 
 
@@ -14,7 +15,7 @@ const searchMoviesStart = (state, action) => {
 };
 
 const searchMoviesSuccess = (state, action) => {
-	return updateObject(state, { loading: false, foundMovies: action.movies });
+	return updateObject(state, { loading: false, foundMovies: action.movies, totalResults: action.totalResults });
 };
 
 const searchMoviesFail = (state, action) => {

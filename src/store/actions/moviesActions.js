@@ -20,7 +20,8 @@ export const searchMovies = (movieTitle) => {
 			.then((res) => {
 				if (res.data.Response === 'False') throw Error(res.data.Error);
 				else {
-					dispatch(searchMoviesSuccess(res.data.Search));
+					console.log('response',res)
+					dispatch(searchMoviesSuccess(res.data));
 				}
 			})
 			.catch((error) => {
@@ -29,10 +30,11 @@ export const searchMovies = (movieTitle) => {
 	};
 };
 
-export const searchMoviesSuccess = (movies) => {
+export const searchMoviesSuccess = (data) => {
 	return {
 		type: actionTypes.SEARCH_MOVIES_SUCCESS,
-		movies,
+		movies: data.Search,
+		totalResults: data.totalResults
 	};
 };
 

@@ -25,6 +25,16 @@ const MoviesMain = (props) => {
 			return false;
 		}
 	};
+
+	// const handlePageClick = (data) => {
+  //   let selected = data.selected;
+  //   let offset = Math.ceil(selected * this.props.perPage);
+
+  //   this.setState({ offset: offset }, () => {
+  //     this.loadCommentsFromServer();
+  //   });
+	// };
+
 	useEffect(() => {
 		if (props.userId) {
 			props.watchFavorites(props.userId, props.firebase);
@@ -34,6 +44,8 @@ const MoviesMain = (props) => {
 	useEffect(() => {
 		props.fetchFavorites(props.userId, props.firebase);
 	}, []);
+
+
 
 	return (
 		<div className={classes.MoviesMainContainer}>
@@ -57,6 +69,7 @@ const MoviesMain = (props) => {
 				<div className={classes.FoundMovies}>
 					<DisplayMovies
 						searched
+						totalResults = {props.totalResults}
 						movies={props.foundMovies}
 						add={props.addFavorite}
 						foundMovie={movieToFind}
@@ -77,6 +90,7 @@ const mapStateToProps = (state) => {
 		favoriteMovies: state.favoriteMovies.favoriteMovies,
 		limitReached: state.favoriteMovies.limitReached,
 		userId: state.auth.userId,
+		totalResults: state.movies.totalResults
 	};
 };
 const mapDispatchToProps = (dispatch) => {
