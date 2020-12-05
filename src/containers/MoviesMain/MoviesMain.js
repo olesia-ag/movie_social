@@ -8,6 +8,7 @@ import * as actions from '../../store/actions';
 
 const MoviesMain = (props) => {
 	const [movieToFind, setMovieToFind] = useState('');
+	const [currentPage, setCurrentPage] = useState(1);
 
 	const submitHandler = (event) => {
 		event.preventDefault();
@@ -26,14 +27,17 @@ const MoviesMain = (props) => {
 		}
 	};
 
-	// const handlePageClick = (data) => {
-  //   let selected = data.selected;
-  //   let offset = Math.ceil(selected * this.props.perPage);
+	const handleClickNextPage = () => {
+		setCurrentPage((prevPage) => {
+			return prevPage+1;
+		});
+	};
 
-  //   this.setState({ offset: offset }, () => {
-  //     this.loadCommentsFromServer();
-  //   });
-	// };
+	const handleClickPrevPage = () => {
+		setCurrentPage((prevPage) => {
+			return prevPage-1;
+		});
+	};
 
 	useEffect(() => {
 		if (props.userId) {
@@ -45,13 +49,15 @@ const MoviesMain = (props) => {
 		props.fetchFavorites(props.userId, props.firebase);
 	}, []);
 
-
+useEffect(()=> {
+	props.findMovies(movieToFind, currentPage)
+},[currentPage])
 
 	return (
 		<div className={classes.MoviesMainContainer}>
 			<div className={classes.FindContainer}>
 				<FindMovies
-					findMovies={() => props.findMovies(movieToFind)}
+					findMovies={() => props.findMovies(movieToFind, currentPage)}
 					submitHandler={submitHandler}
 					inputChangedHandler={inputChangedHandler}
 					movieToFind={movieToFind}
@@ -69,7 +75,10 @@ const MoviesMain = (props) => {
 				<div className={classes.FoundMovies}>
 					<DisplayMovies
 						searched
-						totalResults = {props.totalResults}
+						totalResults={props.totalResults}
+						currentPage={currentPage}
+						handleClickNext={handleClickNextPage}
+						handleClickPrev={handleClickPrevPage}
 						movies={props.foundMovies}
 						add={props.addFavorite}
 						foundMovie={movieToFind}
@@ -90,12 +99,13 @@ const mapStateToProps = (state) => {
 		favoriteMovies: state.favoriteMovies.favoriteMovies,
 		limitReached: state.favoriteMovies.limitReached,
 		userId: state.auth.userId,
-		totalResults: state.movies.totalResults
+		totalResults: state.movies.totalResults,
 	};
 };
 const mapDispatchToProps = (dispatch) => {
 	return {
-		findMovies: (movieTitle) => dispatch(actions.searchMovies(movieTitle)),
+		findMovies: (movieTitle, pageNum) =>
+			dispatch(actions.searchMovies(movieTitle, pageNum)),
 		addFavorite: (movie, userId, firebase) =>
 			dispatch(actions.addFavorite(movie, userId, firebase)),
 		removeFavorite: (movieId, userId, firebase) =>
@@ -103,7 +113,7 @@ const mapDispatchToProps = (dispatch) => {
 		watchFavorites: (userId, firebase) =>
 			dispatch(actions.watchFavorites(userId, firebase)),
 		fetchFavorites: (userId, firebase) =>
-			dispatch(actions.fetchFavorites(userId, firebase))
+			dispatch(actions.fetchFavorites(userId, firebase)),
 	};
 };
 

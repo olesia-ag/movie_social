@@ -7,3 +7,8 @@
 .DisplayMoviesList{
   padding-left: 0;
 }
+
+.Pagination {
+  display: flex;
+  justify-content: center;
+}
