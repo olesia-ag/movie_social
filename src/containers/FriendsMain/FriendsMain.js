@@ -19,42 +19,50 @@ const FriendsMain = (props) => {
 	};
 
 	return (
-		<div>
-			<FindFriends
-				findFriends={props.findFriends}
-				submitHandler={submitHandler}
-				inputChangedHandler={inputChangedHandler}
-				nameToFind={nameToFind}
-				userId={props.userId}
-			/>
-			<DisplayFriends
-				error={props.error}
-				loading={props.loading}
-				friends={props.foundFriends}
-				searchedFriend={nameToFind}
-				sendFriendRequest={props.sendFriendRequest}
-				user={{id: props.userId, name: props.name}}
-			/>
+		<div className={classes.FriendsMainContainer}>
+			<div className={classes.FindContainer}>
+				<p>view friend requests I sent</p>
+				<FindFriends
+					findUsers={props.findUsers}
+					submitHandler={submitHandler}
+					inputChangedHandler={inputChangedHandler}
+					nameToFind={nameToFind}
+					userId={props.userId}
+				/>
+			{/* displays found users */}
+				<DisplayFriends
+					error={props.error}
+					loading={props.loading}
+					friends={props.foundUsers}
+					searchedFriend={nameToFind}
+					sendFriendRequest={props.sendFriendRequest}
+					user={{ id: props.userId, name: props.name }}
+				/>
+			</div>
+			<div className={classes.CurrentFriendsContainer}>
+				{/* <DisplayFriends usersFriends friends={props.foundFriends} /> */}
+			</div>
 		</div>
 	);
 };
 
 const mapStateToProps = (state) => {
+	// console.log('state.foundUsers', state.friends.foundUsers)
 	return {
-		foundFriends: state.friends.foundFriends,
+		foundUsers: state.friends.foundUsers,
 		error: state.friends.error,
 		loading: state.friends.loading,
 		userId: state.auth.userId,
-		name: state.auth.name
+		name: state.auth.name,
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		findFriends: (name, userId, firebase) =>
-			dispatch(actions.findFriends(name, userId, firebase)),
-		sendFriendRequest: (friendId, user, firebase) =>
-			dispatch(actions.sendFriendRequest(friendId, user, firebase)),
+		findUsers: (name, userId, firebase) =>
+			dispatch(actions.findUsers(name, userId, firebase)),
+		sendFriendRequest: (friend, user, firebase) =>
+			dispatch(actions.sendFriendRequest(friend, user, firebase)),
 	};
 };
 

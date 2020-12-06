@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './DisplayFriends.module.css';
 import { withFirebase } from '../../firebase/context';
+import SingleFriend from '../SingleFriend/SingleFriend';
 
 const DisplayFriends = ({
 	loading,
@@ -9,12 +10,30 @@ const DisplayFriends = ({
 	searchedFriend,
 	sendFriendRequest,
 	user,
+	usersFriends,
 	...rest
 }) => {
-	let displayFriends = <p>start searching for friends</p>;
+	let displayFriends;
 	if (loading) {
 		displayFriends = <p>loading...</p>;
+	} else if (usersFriends) {
+		displayFriends = <p> you dont' have any friends here yet :(</p>;
+		if (friends.length) {
+			displayFriends = (
+				<div>
+					<h5>Your friends:</h5>
+					<ul>
+						{friends.map((friend) => (
+							<li key={friend.id}>
+								<SingleFriend remove={() => {}} isFriend />
+							</li>
+						))}
+					</ul>
+				</div>
+			);
+		}
 	}
+
 	if (friends.length) {
 		displayFriends = (
 			<>
@@ -25,7 +44,7 @@ const DisplayFriends = ({
 							{friend.name}
 							<button
 								onClick={() =>
-									sendFriendRequest(friend.id, user, rest.firebase)
+									sendFriendRequest(friend, user, rest.firebase)
 								}>
 								add friend
 							</button>

@@ -17,7 +17,7 @@ export const authSuccess = (idToken, userId, name) => {
 		type: actionTypes.AUTH_SUCCESS,
 		idToken,
 		userId,
-		name
+		name,
 	};
 };
 
@@ -45,7 +45,7 @@ export const getUser = (firebase) => {
 //if user is signing up or singnig in, favorite movies from localStorage will be added to db and erased from localStorage
 
 export const auth = (userData, isSignUp, firebase) => {
-		//refactor? (a method with custom name in Firebase constructor?)
+	//refactor? (a method with custom name in Firebase constructor?)
 	return (dispatch) => {
 		dispatch(authStart());
 		if (isSignUp) {
@@ -59,26 +59,35 @@ export const auth = (userData, isSignUp, firebase) => {
 			return Promise.all([createUser, addData])
 				.then(async function ([createUserRes]) {
 					//add movies from local storage to database and remove them from localStorage:
-					const favoriteMovies = JSON.parse(localStorage.getItem('favoriteMovies'));
-					await favoriteMovies.forEach(movie => firebase.db
-						.collection('users')
-						.doc(createUserRes.user.uid)
-						.collection('favoriteMovies')
-						.doc(movie.imdbID)
-						.set(movie)
-						.then(() => localStorage.removeItem('favoriteMovies')))
-					localStorage.setItem('token', createUserRes.user.refreshToken);
-					localStorage.setItem('userId', createUserRes.user.uid);
-					localStorage.setItem('name', userData.name);
+					const favoriteMovies = JSON.parse(
+						localStorage.getItem('favoriteMovies')
+					);
+					if (favoriteMovies) {
+						await favoriteMovies.forEach((movie) =>
+							firebase.db
+								.collection('users')
+								.doc(createUserRes.user.uid)
+								.collection('favoriteMovies')
+								.doc(movie.imdbID)
+								.set(movie)
+								.then(() => localStorage.removeItem('favoriteMovies'))
+						);
+						localStorage.setItem('token', createUserRes.user.refreshToken);
+						localStorage.setItem('userId', createUserRes.user.uid);
+						localStorage.setItem('name', userData.name);
+					}
 					dispatch(
-						authSuccess(createUserRes.user.refreshToken, createUserRes.user.uid, userData.name)
+						authSuccess(
+							createUserRes.user.refreshToken,
+							createUserRes.user.uid,
+							userData.name
+						)
 					);
 				})
 				.catch((err) => {
 					dispatch(authFail(err));
 				});
-		}
-		else {
+		} else {
 			let signIn = firebase.signInUser(userData.email, userData.password);
 			let getData = signIn.then((res) =>
 				firebase.db.collection('users').doc(res.user.uid).get()
@@ -90,12 +99,16 @@ export const auth = (userData, isSignUp, firebase) => {
 			return Promise.all([signIn, getData, getName])
 				.then(function ([signInRes, getDataRes, getNameRes]) {
 					//if loging in existing user, localStorage favorite movies will be erased
-					localStorage.removeItem('favoriteMovies')
+					localStorage.removeItem('favoriteMovies');
 					localStorage.setItem('token', signInRes.user.refreshToken);
 					localStorage.setItem('userId', signInRes.user.uid);
 					localStorage.setItem('name', getNameRes);
 					dispatch(
-						authSuccess(signInRes.user.refreshToken, signInRes.user.uid, getNameRes)
+						authSuccess(
+							signInRes.user.refreshToken,
+							signInRes.user.uid,
+							getNameRes
+						)
 					);
 				})
 				.catch((err) => dispatch(authFail(err)));
@@ -118,7 +131,7 @@ export const authCheckState = () => {
 			dispatch(logout());
 		} else {
 			const userId = localStorage.getItem('userId');
-			const name = localStorage.getItem('name')
+			const name = localStorage.getItem('name');
 			// console.log('got name', name)
 			dispatch(authSuccess(token, userId, name));
 		}

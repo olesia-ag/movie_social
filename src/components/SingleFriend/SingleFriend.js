@@ -1,12 +1,12 @@
 import React from 'react';
 import Button from '../UI/Button/Button';
-import classes from './SingleMovie.module.css';
+import classes from './SingleFriend.module.css';
 
-const SingleMovie = ({ title, remove, released, addFavorite, isFavorite, disableAdd }) => {
+const SingleFriend = ({ title, remove, released, addFavorite, isFavorite, disableAdd }) => {
 
 	return (
-		<div className={classes.SingleMovieContainer}>
-			<span className={classes.SingleMovie}>
+		<div className={classes.SingleFriendContainer}>
+			<span className={classes.SingleFriend}>
 				{title} ({released})
 			</span>
 			<span className={classes.Button}>
@@ -22,4 +22,4 @@ const SingleMovie = ({ title, remove, released, addFavorite, isFavorite, disable
 	);
 };
 
-export default SingleMovie;
+export default SingleFriend;

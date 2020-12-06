@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes';
 
-export const findFriends = (name, userId, firebase) => {
+export const findUsers = (name, userId, firebase) => {
 	return (dispatch) => {
 		firebase.db
 			.collection('users')
@@ -33,10 +33,10 @@ export const findFriendsFailed = () => {
 	};
 };
 
-export const findFriendsSuccess = (foundFriends, userId) => {
+export const findFriendsSuccess = (foundUsers, userId) => {
 	return {
 		type: actionTypes.FIND_FRIENDS_SUCCESS,
-		foundFriends,
+		foundUsers,
 		userId,
 	};
 };
@@ -47,17 +47,23 @@ export const sendFriendRequestStart = () => {
 	};
 };
 
-export const sendFriendRequest = (friendId, user, firebase) => {
-	//set user information with user.id on friendRequest collection
+export const sendFriendRequest = (friend, user, firebase) => {
+	//get by friendId and set user information on incomingRequests collection
 	return (dispatch) => {
 		firebase.db
 			.collection('users')
-			.doc(friendId)
-			.collection('friendRequests')
+			.doc(friend.id)
+			.collection('incomingRequests')
 			.doc(user.id)
 			.set(user)
-			.then((res) => {
-				console.log('response', res);
+			.then(() => {
+				//get by user.id and set friendId on outgoingRequests collection
+				firebase.db
+					.collection('users')
+					.doc(user.id)
+					.collection('outgoingRequests')
+					.doc(user.id)
+					.set({friend});
 			})
 			.catch((err) => dispatch(sendFriendRequestFailed(err)));
 	};
