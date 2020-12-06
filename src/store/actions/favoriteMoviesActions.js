@@ -8,6 +8,7 @@ export const fetchFavoriteMoviesStart = () => {
 
 export const fetchFavorites = (userId, firebase) => {
 	return (dispatch) => {
+		dispatch(fetchFavoriteMoviesStart());
 		if (userId) {
 			firebase.db
 				.collection('users')
@@ -59,7 +60,6 @@ export const watchFavorites = (userId, firebase) => {
 		}
 	};
 };
-
 
 export const fetchFavoriteMoviesSuccess = (favoriteMovies) => {
 	return {

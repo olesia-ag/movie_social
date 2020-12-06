@@ -63,7 +63,7 @@ export const sendFriendRequest = (friend, user, firebase) => {
 					.doc(user.id)
 					.collection('outgoingRequests')
 					.doc(user.id)
-					.set({friend});
+					.set({ friend });
 			})
 			.catch((err) => dispatch(sendFriendRequestFailed(err)));
 	};
@@ -79,4 +79,96 @@ export const sendFriendRequestFailed = () => {
 	return {
 		type: actionTypes.SEND_FRIEND_REQUEST_FAILED,
 	};
+};
+
+export const fetchOutgoingRequestsStart = () => {
+	return {
+		type: actionTypes.FETCH_OUTGOING_REQUESTS_START,
+	};
+};
+
+export const fetchOutgoingRequests = (userId, firebase) => {
+	return (dispatch) =>{
+		dispatch(fetchOutgoingRequestsStart())
+		firebase.db
+		.collection('users')
+		.doc(userId)
+		.collection('outgoingRequests')
+		.get()
+		.then((res) => {
+			let foundOutgoingRequests = [];
+			res.forEach((doc) => {
+				foundOutgoingRequests.push({ id: doc.id, ...doc.data() });
+			});
+			return foundOutgoingRequests;
+		})
+		.then((arr) => dispatch(fetchOutgoingRequestsSuccess(arr)))
+		.catch((error) => {
+			fetchOutgoingRequestsFailed(error);
+		});
+	}
+}
+
+export const fetchOutgoingRequestsSuccess = (outgoingRequests) => {
+	return {
+		type: actionTypes.FETCH_OUTGOING_REQUESTS_SUCCESS,
+		outgoingRequests,
+	};
+};
+
+export const fetchOutgoingRequestsFailed = (error) => {
+	return {
+		type: actionTypes.FETCH_OUTGOING_REQUESTS_FAILED,
+		error,
+	};
+};
+
+export const watchOutgoingRequests = () => {
+	return;
+};
+
+export const fetchIncomingRequestsStart = () => {
+	return {
+		type: actionTypes.FETCH_INCOMING_REQUESTS_START,
+	};
+};
+
+export const fetchIncomingRequests = (userId, firebase) => {
+	return (dispatch) => {
+		dispatch(fetchIncomingRequestsStart())
+		firebase.db
+			.collection('users')
+			.doc(userId)
+			.collection('incomingRequests')
+			.get()
+			.then((res) => {
+				let foundIncomingRequests = [];
+				res.forEach((doc) => {
+					foundIncomingRequests.push({ id: doc.id, ...doc.data() });
+				});
+				return foundIncomingRequests;
+			})
+			.then((arr) => dispatch(fetchIncomingRequestsSuccess(arr)))
+			.catch((error) => {
+				fetchIncomingRequestsFailed(error);
+			});
+	};
+};
+
+export const fetchIncomingRequestsSuccess = (incomingRequests) => {
+	return {
+		type: actionTypes.FETCH_INCOMING_REQUESTS_SUCCESS,
+		incomingRequests,
+	};
+};
+
+export const fetchIncomingRequestsFailed = (error) => {
+	return {
+		type: actionTypes.FETCH_INCOMING_REQUESTS_FAILED,
+		error,
+	};
+};
+
+export const watchIncomingRequests = () => {
+	return;
 };
