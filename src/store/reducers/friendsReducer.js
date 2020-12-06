@@ -13,8 +13,9 @@ const searchFriendsStart = (state, action) => {
 };
 
 const searchFriendsSuccess = (state, action) => {
-  console.log('found friends', action.foundFriends)
-	return updateObject(state, { loading: false, foundFriends: action.foundFriends });
+	//ensures that user will not be displayed to theirself
+	const newFoundFriends = action.foundFriends.filter(friend=> friend.id !== action.userId)
+		return updateObject(state, { loading: false, foundFriends: newFoundFriends });
 };
 
 const searchFriendsFail = (state, action) => {

@@ -7,21 +7,21 @@ const FindMovies = ({
 	submitHandler,
 	findFriends,
 	inputChangedHandler,
+	user,
 	...rest
 }) => {
-
 	return (
 		<div>
 			<form onSubmit={submitHandler}>
 				<input
 					onChange={(e) => inputChangedHandler(e)}
 					label='title'
-					placeholder='Harry Potter'
+					placeholder="your friend's name"
 				/>
 
 				<Button
 					btnType='Success'
-					clicked={() => findFriends(nameToFind, rest.firebase)}>
+					clicked={() => findFriends(nameToFind, user, rest.firebase)}>
 					SUBMIT
 				</Button>
 			</form>

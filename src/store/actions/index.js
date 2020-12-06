@@ -13,4 +13,4 @@ export {
 	fetchFavorites,
 	watchFavorites
 } from './favoriteMoviesActions';
-export { findFriends } from './userActions';
+export { findFriends, sendFriendRequest } from './friendsActions';

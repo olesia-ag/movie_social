@@ -2,7 +2,15 @@ import React from 'react';
 import classes from './DisplayFriends.module.css';
 import { withFirebase } from '../../firebase/context';
 
-const DisplayFriends = ({ loading, error, friends, searchedFriend }) => {
+const DisplayFriends = ({
+	loading,
+	error,
+	friends,
+	searchedFriend,
+	sendFriendRequest,
+	user,
+	...rest
+}) => {
 	let displayFriends = <p>start searching for friends</p>;
 	if (loading) {
 		displayFriends = <p>loading...</p>;
@@ -13,7 +21,15 @@ const DisplayFriends = ({ loading, error, friends, searchedFriend }) => {
 				<h5>Found for '{searchedFriend}':</h5>
 				<ul className={classes.DisplayFriendssList}>
 					{friends.map((friend) => (
-						<li key={friend.id}>{friend.name}</li>
+						<li key={friend.id}>
+							{friend.name}
+							<button
+								onClick={() =>
+									sendFriendRequest(friend.id, user, rest.firebase)
+								}>
+								add friend
+							</button>
+						</li>
 					))}
 				</ul>
 			</>
