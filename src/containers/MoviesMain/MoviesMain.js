@@ -28,6 +28,7 @@ const MoviesMain = (props) => {
 	};
 
 	const handleClickNextPage = () => {
+		console.log('currentpage', currentPage, 'movieToFind', movieToFind)
 		setCurrentPage((prevPage) => {
 			return prevPage + 1;
 		});
@@ -50,7 +51,7 @@ const MoviesMain = (props) => {
 	}, []);
 
 	useEffect(() => {
-		props.findMovies(movieToFind, currentPage);
+			props.findMovies(props.foundMovie, currentPage);
 	}, [currentPage]);
 
 	return (
