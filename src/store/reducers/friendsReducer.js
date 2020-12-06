@@ -21,6 +21,7 @@ const fetchIncomingRequestsStart = (state, action) => {
 };
 
 const fetchIncomingRequestsSuccess = (state, action) => {
+	console.log('got here')
 	return updateObject(state, {
 		loadingIncoming: false,
 		//same reducer is used for watchRequests function

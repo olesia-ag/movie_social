@@ -53,9 +53,6 @@ const favoriteMoviesReducer = (state = initialState, action) => {
 		case actionTypes.FETCH_FAVORITE_MOVIES_SUCCESS:
 			return fetchFavoritesSuccess(state, action);
 
-		case actionTypes.AUTH_LOGOUT:
-			return clearFavorites(state, action);
-
 		default:
 			return state;
 	}

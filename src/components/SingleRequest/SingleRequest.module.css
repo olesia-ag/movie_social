@@ -1,0 +1,16 @@
+.SingleRequestContainer{
+  display: flex;
+	flex-direction: column;
+	animation: fadeIn 2s;
+	align-items: center;
+	margin: 0 .5rem .5rem 0;
+	min-height: 4rem;
+}
+
+.SingleRequest {
+	flex: 4;
+}
+
+.Button {
+	flex: 1;
+}

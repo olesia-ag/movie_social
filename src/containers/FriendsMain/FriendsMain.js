@@ -3,6 +3,7 @@ import { withFirebase } from '../../firebase/context';
 import classes from './FriendsMain.module.css';
 import FindFriends from '../../components/FindFriends/FindFriends';
 import DisplayFriends from '../../components/DisplayFriends/DisplayFriends';
+import DisplayRequests from '../../components/DisplayRequests/DisplayRequests';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 
@@ -18,10 +19,16 @@ const FriendsMain = (props) => {
 		setNameToFind(event.target.value);
 	};
 
+	//fetch both outgoing and incoming requests
+	useEffect(() => {
+		props.fetchIncomingRequests(props.userId, props.firebase);
+		props.fetchOutgoingRequests(props.userId, props.firebase);
+	}, []);
+
 	return (
 		<div className={classes.FriendsMainContainer}>
 			<div className={classes.FindContainer}>
-				<p>view friend requests I sent</p>
+				<DisplayRequests loading={props.loadingIncoming} error={props.loadingIncomingError} requests={props.incomingRequests} userId={props.userId} />
 				<FindFriends
 					findUsers={props.findUsers}
 					submitHandler={submitHandler}
@@ -29,7 +36,7 @@ const FriendsMain = (props) => {
 					nameToFind={nameToFind}
 					userId={props.userId}
 				/>
-			{/* displays found users */}
+				{/* displays found users */}
 				<DisplayFriends
 					error={props.error}
 					loading={props.loading}
@@ -47,9 +54,14 @@ const FriendsMain = (props) => {
 };
 
 const mapStateToProps = (state) => {
-	// console.log('state.foundUsers', state.friends.foundUsers)
 	return {
 		foundUsers: state.friends.foundUsers,
+		incomingRequests: state.friends.incomingRequests,
+		outgoingRequests: state.friends.outgoingRequests,
+		loadingIncoming: state.friends.loadingIncoming,
+		loadingOutgoing: state.friends.loadingOutgoing,
+		loadingIncomingError: state.friends.loadingIncomingError,
+		loadingOutgoingError: state.friends.loadingOutgoingError,
 		error: state.friends.error,
 		loading: state.friends.loading,
 		userId: state.auth.userId,
@@ -63,6 +75,10 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(actions.findUsers(name, userId, firebase)),
 		sendFriendRequest: (friend, user, firebase) =>
 			dispatch(actions.sendFriendRequest(friend, user, firebase)),
+		fetchIncomingRequests: (userId, firebase) =>
+			dispatch(actions.fetchIncomingRequests(userId, firebase)),
+		fetchOutgoingRequests: (userId, firebase) =>
+			dispatch(actions.fetchOutgoingRequests(userId, firebase)),
 	};
 };
 

@@ -88,26 +88,26 @@ export const fetchOutgoingRequestsStart = () => {
 };
 
 export const fetchOutgoingRequests = (userId, firebase) => {
-	return (dispatch) =>{
-		dispatch(fetchOutgoingRequestsStart())
+	return (dispatch) => {
+		dispatch(fetchOutgoingRequestsStart());
 		firebase.db
-		.collection('users')
-		.doc(userId)
-		.collection('outgoingRequests')
-		.get()
-		.then((res) => {
-			let foundOutgoingRequests = [];
-			res.forEach((doc) => {
-				foundOutgoingRequests.push({ id: doc.id, ...doc.data() });
+			.collection('users')
+			.doc(userId)
+			.collection('outgoingRequests')
+			.get()
+			.then((res) => {
+				let foundOutgoingRequests = [];
+				res.forEach((doc) => {
+					foundOutgoingRequests.push({ id: doc.id, ...doc.data() });
+				});
+				return foundOutgoingRequests;
+			})
+			.then((arr) => dispatch(fetchOutgoingRequestsSuccess(arr)))
+			.catch((error) => {
+				fetchOutgoingRequestsFailed(error);
 			});
-			return foundOutgoingRequests;
-		})
-		.then((arr) => dispatch(fetchOutgoingRequestsSuccess(arr)))
-		.catch((error) => {
-			fetchOutgoingRequestsFailed(error);
-		});
-	}
-}
+	};
+};
 
 export const fetchOutgoingRequestsSuccess = (outgoingRequests) => {
 	return {
@@ -135,7 +135,7 @@ export const fetchIncomingRequestsStart = () => {
 
 export const fetchIncomingRequests = (userId, firebase) => {
 	return (dispatch) => {
-		dispatch(fetchIncomingRequestsStart())
+		dispatch(fetchIncomingRequestsStart());
 		firebase.db
 			.collection('users')
 			.doc(userId)
@@ -148,7 +148,9 @@ export const fetchIncomingRequests = (userId, firebase) => {
 				});
 				return foundIncomingRequests;
 			})
-			.then((arr) => dispatch(fetchIncomingRequestsSuccess(arr)))
+			.then((arr) => {
+				dispatch(fetchIncomingRequestsSuccess(arr));
+			})
 			.catch((error) => {
 				fetchIncomingRequestsFailed(error);
 			});
@@ -158,14 +160,14 @@ export const fetchIncomingRequests = (userId, firebase) => {
 export const fetchIncomingRequestsSuccess = (incomingRequests) => {
 	return {
 		type: actionTypes.FETCH_INCOMING_REQUESTS_SUCCESS,
-		incomingRequests,
+		incomingRequests
 	};
 };
 
 export const fetchIncomingRequestsFailed = (error) => {
 	return {
 		type: actionTypes.FETCH_INCOMING_REQUESTS_FAILED,
-		error,
+		error
 	};
 };
 
