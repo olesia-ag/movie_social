@@ -3,30 +3,34 @@ import classes from './DisplayMovies.module.css';
 import { SingleMovie } from '../SingleMovie';
 import { withFirebase } from '../../firebase/context';
 import Button from '../UI/Button/Button';
+import LimitWarning from '../LimitWarning/LimitWarning';
 
 const DisplayMovies = ({
 	userId,
 	favorite,
 	searched,
 	toWatch,
-	foundMovie,
 	movies,
 	add,
 	remove,
 	isFavorite,
 	totalResults,
+	foundMovie,
 	handleClickNext,
 	handleClickPrev,
 	currentPage,
+	limitReached,
 	...rest
 }) => {
 	let displayMovies;
 	if (favorite) {
-		displayMovies = <p>nominate some movies first!</p>;
+		displayMovies = <p>your favorite movies will appear here</p>;
 		if (movies.length) {
 			displayMovies = (
 				<div>
-					<ol>
+					{!userId && limitReached ? <LimitWarning /> : null}
+					<h5>Your favorite movies:</h5>
+					<ol className={classes.DisplayMoviesList}>
 						{movies.map((movie) => (
 							<li key={movie.imdbID}>
 								<SingleMovie
@@ -43,16 +47,16 @@ const DisplayMovies = ({
 			);
 		}
 	} else {
-		displayMovies = <p>search for movies first!</p>;
+		displayMovies = <p>search for movies to start </p>;
 		if (movies.length) {
 			displayMovies = (
 				<>
 					<h5>
-						Found {totalResults} results for '{foundMovie}':
+						Found {totalResults} results for "{foundMovie}":
 					</h5>
 					<ol
-						className={classes.DisplayMoviesList}
-						start={currentPage === 1 ? 1 : currentPage * 10}>
+						start={currentPage === 1 ? 1 : currentPage * 10}
+						className={classes.DisplayMoviesList}>
 						{movies.map((movie) => (
 							<li key={movie.imdbID}>
 								<SingleMovie
@@ -61,7 +65,10 @@ const DisplayMovies = ({
 									poster={movie.Poster}
 									released={movie.Year}
 									addFavorite={() => add(movie, userId, rest.firebase)}
-									disableAdd={isFavorite(movie.imdbID)}
+									//limit exists only if user is not logged in
+									disableAdd={
+										limitReached && !userId ? true : isFavorite(movie.imdbID)
+									}
 								/>
 							</li>
 						))}

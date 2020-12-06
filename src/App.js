@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import classes from './App.module.css';
 import { Switch, Redirect, Route } from 'react-router-dom';
 import PrivateRoute from './containers/hoc/PrivateRoute';

@@ -29,13 +29,13 @@ const MoviesMain = (props) => {
 
 	const handleClickNextPage = () => {
 		setCurrentPage((prevPage) => {
-			return prevPage+1;
+			return prevPage + 1;
 		});
 	};
 
 	const handleClickPrevPage = () => {
 		setCurrentPage((prevPage) => {
-			return prevPage-1;
+			return prevPage - 1;
 		});
 	};
 
@@ -49,9 +49,9 @@ const MoviesMain = (props) => {
 		props.fetchFavorites(props.userId, props.firebase);
 	}, []);
 
-useEffect(()=> {
-	props.findMovies(movieToFind, currentPage)
-},[currentPage])
+	useEffect(() => {
+		props.findMovies(movieToFind, currentPage);
+	}, [currentPage]);
 
 	return (
 		<div className={classes.MoviesMainContainer}>
@@ -67,6 +67,7 @@ useEffect(()=> {
 				<div className={classes.FavoriteMovies}>
 					<DisplayMovies
 						favorite
+						limitReached={props.limitReached}
 						movies={props.favoriteMovies}
 						remove={props.removeFavorite}
 						userId={props.userId}
@@ -74,6 +75,7 @@ useEffect(()=> {
 				</div>
 				<div className={classes.FoundMovies}>
 					<DisplayMovies
+						limitReached={props.limitReached}
 						searched
 						totalResults={props.totalResults}
 						currentPage={currentPage}
@@ -81,7 +83,7 @@ useEffect(()=> {
 						handleClickPrev={handleClickPrevPage}
 						movies={props.foundMovies}
 						add={props.addFavorite}
-						foundMovie={movieToFind}
+						foundMovie={props.foundMovie}
 						isFavorite={checkIfFavorite}
 						userId={props.userId}
 					/>
@@ -91,11 +93,13 @@ useEffect(()=> {
 	);
 };
 
+
 const mapStateToProps = (state) => {
 	return {
 		loading: state.movies.loading,
 		error: state.movies.error,
 		foundMovies: state.movies.foundMovies,
+		foundMovie: state.movies.foundMovie,
 		favoriteMovies: state.favoriteMovies.favoriteMovies,
 		limitReached: state.favoriteMovies.limitReached,
 		userId: state.auth.userId,

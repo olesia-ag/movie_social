@@ -1,9 +1,13 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const LimitWarning = () => (
-  <span>
-  <h5>Thank you. You've reached the maximum of 5 nominated movies.</h5>
-</span>
-)
+	<span>
+		<h5>
+			Thank you. You can add the maximum of 3 favorite movies. Need
+			more? <Link to="/auth">Sign up!</Link>
+		</h5>
+	</span>
+);
 
-export default LimitWarning
+export default LimitWarning;

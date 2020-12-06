@@ -15,7 +15,7 @@ const SingleMovie = ({ title, remove, released, addFavorite, isFavorite, disable
 					<Button clicked={remove}>remove</Button>
 				) : (
 					<Button clicked={addFavorite} disabled={disableAdd}>
-						nominate
+						add
 					</Button>
 				)}
 			</span>

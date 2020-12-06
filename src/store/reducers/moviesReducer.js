@@ -3,19 +3,18 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
 	foundMovies: [],
+	foundMovie: '',
 	error: null,
 	loading: false,
 	totalResults: null
 };
 
-
-
 const searchMoviesStart = (state, action) => {
-	return updateObject(state, { error: null, loading: true });
+	return updateObject(state, { error: null, loading: true});
 };
 
 const searchMoviesSuccess = (state, action) => {
-	return updateObject(state, { loading: false, foundMovies: action.movies, totalResults: action.totalResults });
+	return updateObject(state, { loading: false, foundMovies: action.movies, totalResults: action.totalResults, foundMovie: action.foundMovie });
 };
 
 const searchMoviesFail = (state, action) => {

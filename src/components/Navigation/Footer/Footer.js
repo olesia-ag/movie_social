@@ -4,7 +4,7 @@ import classes from './Footer.module.css';
 const Footer = (props) => {
 	return (
 		<div className={classes.Footer}>
-footer items here
+made with &#9829; by Olesia
 		</div>
 	);
 };

@@ -1,8 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
-
-
 export const searchMoviesStart = () => {
 	return {
 		type: actionTypes.SEARCH_MOVIES_START,
@@ -20,8 +18,7 @@ export const searchMovies = (movieTitle, pageNum) => {
 			.then((res) => {
 				if (res.data.Response === 'False') throw Error(res.data.Error);
 				else {
-					console.log('response',res)
-					dispatch(searchMoviesSuccess(res.data));
+					dispatch(searchMoviesSuccess(res.data, movieTitle));
 				}
 			})
 			.catch((error) => {
@@ -30,11 +27,12 @@ export const searchMovies = (movieTitle, pageNum) => {
 	};
 };
 
-export const searchMoviesSuccess = (data) => {
+export const searchMoviesSuccess = (data, movieTitle) => {
 	return {
 		type: actionTypes.SEARCH_MOVIES_SUCCESS,
 		movies: data.Search,
-		totalResults: data.totalResults
+		totalResults: data.totalResults,
+		foundMovie: movieTitle
 	};
 };
 

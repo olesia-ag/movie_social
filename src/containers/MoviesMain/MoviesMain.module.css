@@ -13,22 +13,21 @@
 }
 
 .MoviesContainer {
-	width: 90%;
+	width: 100%;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	margin: 0.5rem;
-	border: 1px solid darkblue;
 }
 
 .FavoriteMovies {
 	flex: 1;
 	max-width: 50%;
-	border: 1px solid orange;
+	border: 1px solid var(--main-color);
+	margin: .5rem;
 }
 
 .FoundMovies {
 	flex: 1;
-	border: 1px solid yellow;
 }
 
 @media (min-width: 769px) {
